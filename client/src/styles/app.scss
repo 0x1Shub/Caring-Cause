@@ -32,6 +32,8 @@
   @import "admin/chart";
   @import "admin/dashboardapp";
   @import "admin/mediaquery";
+
+  @import "components/Navbar";
   
   .admin-container {
     @include grid(1fr 4fr, 2rem);

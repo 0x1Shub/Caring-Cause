@@ -2,8 +2,9 @@ import { Suspense, lazy } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Loader from './components/Loader';
 import Search from './pages/Search';
+import Navbar from './components/Navbar';
 
-const Home = lazy(() => import("./pages/Home"));
+const Home = lazy(() => import("./pages/Home/Home"));
 const NewCampaign = lazy(() => import('./pages/NewCampaign'));
 
 
@@ -30,9 +31,7 @@ const TransactionManagement = lazy(
 const App = () => {
   return (
     <BrowserRouter>
-
-    {/* Navbar */}
-
+    <Navbar />
     <Suspense fallback={<Loader />}>
     <Routes>
         <Route path='/' element={<Home />}  />
