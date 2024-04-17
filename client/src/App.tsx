@@ -6,11 +6,12 @@ import Navbar from './components/Navbar';
 import MyFundraisers from './pages/MyFundraisers';
 
 
+
 const Home = lazy(() => import("./pages/Home/Home"));
 const NewCampaign = lazy(() => import('./pages/NewCampaign'));
 
 const Checkout = lazy(() => import('./pages/Checkout'));
-
+const Login = lazy(() => import('./pages/Login'));
 
 // Admin routed importing
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -44,9 +45,15 @@ const App = () => {
 
         <Route path='/profile/fundraisers' element={<MyFundraisers />} />
 
+        {/* Not Loged in route */}
+        <Route path='/login' element={<Login />} />
+
+        {/* Login User Route */}
         <Route>
           <Route path='/checkout' element={<Checkout />} />
         </Route>
+
+
         
 
         {/* Admin Routes */}
