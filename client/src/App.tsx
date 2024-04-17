@@ -3,6 +3,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Loader from './components/Loader';
 import Search from './pages/Search';
 import Navbar from './components/Navbar';
+import MyFundraisers from './pages/MyFundraisers';
 
 const Home = lazy(() => import("./pages/Home/Home"));
 const NewCampaign = lazy(() => import('./pages/NewCampaign'));
@@ -37,6 +38,8 @@ const App = () => {
         <Route path='/' element={<Home />}  />
         <Route path='/search' element={<Search />}  />
         <Route path='/campaigns/create' element={<NewCampaign />} />
+
+        <Route path='/profile/fundraisers' element={<MyFundraisers />} />
 
         {/* Admin Routes */}
 

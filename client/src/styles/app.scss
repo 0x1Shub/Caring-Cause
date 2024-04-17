@@ -39,6 +39,11 @@
   .green {
     color: rgb(0, 195, 0);
   }
+
+$color1: white;
+$color2: rgb(46, 46, 46);
+$color3: rgb(0, 104, 136);
+
   
   @import "admin/mixin";
 
@@ -50,6 +55,7 @@
 
   @import "components/Navbar";
   @import "pages/Home.scss";
+  @import "pages/MyFundraisers.scss";
   
   .admin-container {
     @include grid(1fr 4fr, 2rem);

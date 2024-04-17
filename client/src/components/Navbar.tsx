@@ -51,8 +51,8 @@ const Navbar = () => {
                           <Link onClick={() => setIsOpen(false)} to={'/admin/dashboard'}>Admin</Link>
                         )} 
                           <Link onClick={() => setIsOpen(false)} to={'/profile'}>View Profile</Link>
-                          <Link onClick={() => setIsOpen(false)} to={'/my-fundraisers'}>My Fundraisers</Link>
-                          <Link onClick={() => setIsOpen(false)} to={'/my-donations'}>My Donations</Link>
+                          <Link onClick={() => setIsOpen(false)} to={'/profile/fundraisers'}>My Fundraisers</Link>
+                          <Link onClick={() => setIsOpen(false)} to={'/profile/donations'}>My Donations</Link>
                           <Link onClick={logoutHandler} to={'/logout'}>Log out</Link>
                         </div>
                           
