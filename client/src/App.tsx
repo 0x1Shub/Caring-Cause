@@ -5,8 +5,11 @@ import Search from './pages/Search';
 import Navbar from './components/Navbar';
 import MyFundraisers from './pages/MyFundraisers';
 
+
 const Home = lazy(() => import("./pages/Home/Home"));
 const NewCampaign = lazy(() => import('./pages/NewCampaign'));
+
+const Checkout = lazy(() => import('./pages/Checkout'));
 
 
 // Admin routed importing
@@ -40,6 +43,11 @@ const App = () => {
         <Route path='/campaigns/create' element={<NewCampaign />} />
 
         <Route path='/profile/fundraisers' element={<MyFundraisers />} />
+
+        <Route>
+          <Route path='/checkout' element={<Checkout />} />
+        </Route>
+        
 
         {/* Admin Routes */}
 

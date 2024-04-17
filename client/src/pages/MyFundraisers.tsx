@@ -70,7 +70,7 @@ const MyFundraisers = () => {
             }
 
             {
-                campaignsItem.length > 0 && <Link to={'/chekout'}>Checkout</Link>
+                campaignsItem.length > 0 && <Link to={'/checkout'}>Checkout</Link>
             }
 
         </aside>

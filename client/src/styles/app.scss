@@ -46,6 +46,7 @@ $color3: rgb(0, 104, 136);
 
   
   @import "admin/mixin";
+  @import "pages/Checkout.scss";
 
   @import "admin/dashboard";
   @import "admin/products";
@@ -56,6 +57,7 @@ $color3: rgb(0, 104, 136);
   @import "components/Navbar";
   @import "pages/Home.scss";
   @import "pages/MyFundraisers.scss";
+  
   
   .admin-container {
     @include grid(1fr 4fr, 2rem);
