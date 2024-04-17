@@ -46,8 +46,13 @@ $color3: rgb(0, 104, 136);
 
   
   @import "admin/mixin";
+  
+  @import "components/Navbar";
+  @import "pages/Home.scss";
+  @import "pages/MyFundraisers.scss";
   @import "pages/Checkout.scss";
   @import "pages/Login.scss";
+  @import "pages/Fundraisers.scss";
 
   @import "admin/dashboard";
   @import "admin/products";
@@ -55,9 +60,6 @@ $color3: rgb(0, 104, 136);
   @import "admin/dashboardapp";
   @import "admin/mediaquery";
 
-  @import "components/Navbar";
-  @import "pages/Home.scss";
-  @import "pages/MyFundraisers.scss";
   
   
   .admin-container {

@@ -5,7 +5,7 @@ import { HiOutlineSearch} from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useState } from "react";
 
-const user = {_id: "", role: ""};
+const user = {_id: "asas", role: ""};
 
 
 const Navbar = () => {
@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className={'nav-items'}>
           <Link className="link" to={'/'}>Home</Link>
           <Link className="link" to={'/campaigns/create'}>Start a Fundraiser</Link>
-          <Link className="link" to={'/funraisers'}>Donation</Link>
+          <Link className="link" to={'/fundraisers'}>Donation</Link>
           <Link className="link" to={'/'}>How it Works</Link>
           <Link to={'/search'} className="link">
               <HiOutlineSearch className="searchIcon" />
