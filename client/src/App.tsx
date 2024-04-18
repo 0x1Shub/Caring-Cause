@@ -4,7 +4,6 @@ import Loader from './components/Loader';
 import Search from './pages/Search';
 import Navbar from './components/Navbar';
 import MyFundraisers from './pages/MyFundraisers';
-const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
 
 
 
@@ -12,6 +11,9 @@ const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
 const Home = lazy(() => import("./pages/Home/Home"));
 const NewCampaign = lazy(() => import('./pages/NewCampaign'));
 const Fundraisers = lazy(() => import('./pages/Fundraisers'));
+
+const CampaignDetails = lazy(() => import('./pages/CampaignDetails'));
+const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
 
 const Checkout = lazy(() => import('./pages/Checkout'));
 const Login = lazy(() => import('./pages/Login'));
@@ -47,6 +49,8 @@ const App = () => {
         <Route path='/campaigns/create' element={<NewCampaign />} />
 
         <Route path='/fundraisers' element={<Fundraisers />} />
+
+        <Route path='campaign/:id' element={<CampaignDetails />} />
 
         {/* Profile Routes */}
         <Route path='/profile/fundraisers' element={<MyFundraisers />} />
