@@ -4,6 +4,7 @@ import express from 'express';
 import userRoute from './routes/user.js';
 import { connectDB } from './utils/features.js';
 import { errorMiddleware } from './middlewares/error.js';
+import NodeCache from 'node-cache';
 
 import campaignRoute from './routes/campaigns.js';
 
@@ -12,6 +13,8 @@ const app = express();
 const PORT = 3000;
 
 connectDB();
+
+export const myCache = new NodeCache();
 
 app.use(express.json());
 

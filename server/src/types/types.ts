@@ -42,12 +42,12 @@ export interface BaseQuery {
 }
 
 export type InvalidateCacheProps = {
-  product?: boolean;
-  order?: boolean;
+  campaign?: boolean;
+  donation?: boolean;
   admin?: boolean;
   userId?: string;
-  orderId?: string;
-  productId?: string | string[];
+  donationId?: string;
+  campaignId?: string | string[];
 };
 
 export type OrderItemType = {

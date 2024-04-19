@@ -4,41 +4,23 @@ import { TryCatch } from "../middlewares/error.js";
 import {Campaign} from '../models/campaign.js';
 import ErrorHandler from '../utils/utility-class.js';
 import { rm } from 'fs';
+import { myCache } from '../app.js';
+import { invalidateCache } from '../utils/features.js';
 // import  {faker} from '@faker-js/faker';
 
-export const newCampaign = TryCatch(
-    async (req:Request<{}, {}, NewCampaignRequestBody>, res, next) => {
-        const {title, category, amountRaise, days} = req.body;
-        const photo = req.file;
 
-        if(!photo) return next(new ErrorHandler('Please Add Photo', 400));
-
-        if(!title || !category || !amountRaise || !days ){
-
-            rm(photo.path, () => {
-                console.log("Deleted");
-            })
-
-            return next(new ErrorHandler('Please enter all field', 400));
-        }
-
-        await Campaign.create({
-            title, 
-            amountRaise, 
-            days, 
-            category : category.toLocaleLowerCase(), 
-            photo: photo.path,
-        });
-
-        return res.status(201).json({
-            success: true,
-            msg: "Campaign Created Successfully",
-        });
-})
+// Revalidate on New Update Delete
 
 export const getlatestCampaign = TryCatch(async (req, res, next) => {
-    
-    const campaigns = await Campaign.find({}).sort({createdAt: -1}).limit(5);
+
+  let campaigns;
+  if(myCache.has("latest-campaign"))
+    campaigns = JSON.parse(myCache.get("latest-campaign") as string);
+  else{
+    campaigns = await Campaign.find({}).sort({createdAt: -1}).limit(5);
+
+    myCache.set('latest-campaign', JSON.stringify(campaigns));
+  }
   
     return res.status(200).json({
       success: true,
@@ -48,9 +30,15 @@ export const getlatestCampaign = TryCatch(async (req, res, next) => {
 
 
 export const getAllCategories = TryCatch(async (req, res, next) => {
-    
-    const categories = await Campaign.distinct("category")
-  
+
+  let categories;
+
+  if(myCache.has("categories")) categories = JSON.parse(myCache.get("categories") as string);
+  else{
+    categories = await Campaign.distinct("category");
+    myCache.set("categories", JSON.stringify(categories));
+  }
+
     return res.status(200).json({
       success: true,
       categories,
@@ -59,7 +47,14 @@ export const getAllCategories = TryCatch(async (req, res, next) => {
 
 
 export const getAdminCampaigns = TryCatch(async (req, res, next) => {
-    const campaigns = await Campaign.find({});
+
+  let campaigns;
+
+  if(myCache.has("all-campaigns")) campaigns = JSON.parse(myCache.get("all-campaigns") as string);
+  else{
+    campaigns = await Campaign.find({});
+    myCache.set("all-campaigns", JSON.stringify(campaigns));
+  }
   
     return res.status(200).json({
       success: true,
@@ -69,13 +64,55 @@ export const getAdminCampaigns = TryCatch(async (req, res, next) => {
 
 
 export const getSingleCampaign = TryCatch(async (req, res, next) => {
-    const campaign = await Campaign.findById(req.params.id);
+  let campaign;
+  const id = req.params.id
+
+  if(myCache.has(`campaign-${id}`)) campaign = JSON.parse(myCache.get(`campaign-${id}`) as string);
+  else{
+    campaign = await Campaign.findById(id);
+    if(!campaign) return next(new ErrorHandler("Campaign Not Found", 404));
+    myCache.set(`campaign-${id}`, JSON.stringify(campaign));
+  }
   
     return res.status(200).json({
       success: true,
       campaign,
     });
 });
+
+
+export const newCampaign = TryCatch(
+  async (req:Request<{}, {}, NewCampaignRequestBody>, res, next) => {
+      const {title, category, amountRaise, days} = req.body;
+      const photo = req.file;
+
+      if(!photo) return next(new ErrorHandler('Please Add Photo', 400));
+
+      if(!title || !category || !amountRaise || !days ){
+
+          rm(photo.path, () => {
+              console.log("Deleted");
+          })
+
+          return next(new ErrorHandler('Please enter all field', 400));
+      }
+
+      await Campaign.create({
+          title, 
+          amountRaise, 
+          days, 
+          category : category.toLocaleLowerCase(), 
+          photo: photo.path,
+      });
+
+      await invalidateCache({campaign: true});
+
+      return res.status(201).json({
+          success: true,
+          msg: "Campaign Created Successfully",
+      });
+})
+
 
 
 export const updateCampaign = TryCatch(async (req, res, next) => {
@@ -101,7 +138,8 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
   
     await campaign.save();
   
-  
+    await invalidateCache({campaign: true});
+
     return res.status(200).json({
       success: true,
       message: "Campaign Updated Successfully",
@@ -119,6 +157,9 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
     });
   
     await campaign.deleteOne();
+
+    await invalidateCache({campaign: true});
+
   
     return res.status(200).json({
       success: true,
