@@ -24,7 +24,7 @@ export const newUser = TryCatch(
       return next(new ErrorHandler("Please add all fields", 400));
 
     user = await User.create({
-      name,
+      name, 
       email,
       photo,
       gender,
