@@ -9,11 +9,11 @@ export interface NewUserRequestBody {
   dob: Date;
 }
 
-export interface NewProductRequestBody {
-  name: string;
+export interface NewCampaignRequestBody {
+  title: string;
   category: string;
-  price: number;
-  stock: number;
+  amountRaise: number;
+  days: number;
 }
 
 export type ControllerType = (
@@ -24,19 +24,21 @@ export type ControllerType = (
 
 export type SearchRequestQuery = {
   search?: string;
-  price?: string;
+  amountRaise?: string;
   category?: string;
   sort?: string;
   page?: string;
 };
 
+interface TitleQuery {
+  $regex: string;
+  $options: string;
+}
+
 export interface BaseQuery {
-  name?: {
-    $regex: string;
-    $options: string;
-  };
-  price?: { $lte: number };
-  category?: string;
+  title?: TitleQuery;
+  amountRaise?: { $lte: number };
+  category?: string; 
 }
 
 export type InvalidateCacheProps = {
