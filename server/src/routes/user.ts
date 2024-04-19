@@ -1,3 +1,4 @@
+import { adminOnly } from './../middlewares/auth.js';
 import express from 'express';
 import { deleteUser, getAllUsers, getUser, newUser } from '../controllers/user.js';
 
@@ -7,10 +8,10 @@ const app = express.Router();
 app.post('/new', newUser);
 
 // Route - /api/v1/user/all
-app.get('/all', getAllUsers);
+app.get('/all', adminOnly, getAllUsers);
 
 // Route - /api/v1/user/dynamicID  // chaining
-app.route("/:id").get(getUser).delete(deleteUser);
+app.route("/:id").get(getUser).delete(adminOnly, deleteUser);
 
 
 export default app; 
