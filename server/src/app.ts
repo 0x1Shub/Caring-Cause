@@ -10,7 +10,8 @@ import morgan from "morgan";
 
 
 import campaignRoute from './routes/campaigns.js';
-import donartionRoute from './routes/donation.js';
+import donationRoute from './routes/donation.js';
+import transactionRoute from './routes/transaction.js';
 
 const app = express();
 
@@ -31,7 +32,8 @@ app.use(morgan("dev"));
 // using routes
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/campaign', campaignRoute);
-app.use('/api/v1/donation', donartionRoute);
+app.use('/api/v1/donation', donationRoute); 
+app.use('/api/v1/transaction', transactionRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello Express');
