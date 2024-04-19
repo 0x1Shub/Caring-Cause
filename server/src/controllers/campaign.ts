@@ -105,7 +105,7 @@ export const newCampaign = TryCatch(
           photo: photo.path,
       });
 
-      await invalidateCache({campaign: true});
+      await invalidateCache({campaign: true, campaignId: String(campaign._id)});
 
       return res.status(201).json({
           success: true,

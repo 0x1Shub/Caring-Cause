@@ -50,29 +50,27 @@ export type InvalidateCacheProps = {
   campaignId?: string | string[];
 };
 
-export type OrderItemType = {
+export type DonationCampaignType = {
   name: string;
   photo: string;
-  price: number;
-  quantity: number;
-  productId: string;
+  amount: number;
+  campaignId: string;
 };
 
-export type ShippingInfoType = {
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  pinCode: number;
+export type DonationInfoType = {
+  name: string;
+  email: string;
+  phone: number;
+  amount: number;
 };
 
-export interface NewOrderRequestBody {
-  shippingInfo: ShippingInfoType;
+export interface NewDonationRequestBody {
+  donationInfo: DonationInfoType;
   user: string;
   subtotal: number;
   tax: number;
   shippingCharges: number;
   discount: number;
   total: number;
-  orderItems: OrderItemType[];
+  donationCampaign: DonationCampaignType[];
 }

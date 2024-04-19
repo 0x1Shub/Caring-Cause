@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
-import { InvalidateCacheProps } from "../types/types.js";
+import { DonationCampaignType, InvalidateCacheProps } from "../types/types.js";
 import { myCache } from "../app.js";
+import { Campaign } from "../models/campaign.js";
 
 export const connectDB = (uri: string) => {
     mongoose.connect(uri, {
@@ -31,9 +32,9 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
     }
     if (donation) {
       const donationKeys: string[] = [
-        "all-orders",
-        `my-orders-${userId}`,
-        `order-${donationId}`,
+        "all-donations",
+        `my-donations-${userId}`,
+        `donation-${donationId}`,
       ];
   
       myCache.del(donationKeys);
@@ -46,4 +47,85 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
         "admin-line-charts",
       ]);
     }
+  };
+
+
+  export const reduceRaiseAmount = async (donationCampaigns: DonationCampaignType[]) => {
+    for(let i=0; i<donationCampaigns.length; i++){
+      const donation = donationCampaigns[i];
+      const campaign = await Campaign.findById(donation.campaignId);
+      if(!campaign) throw new Error("Campaign Not found");
+
+      if (campaign && campaign.amountRaise !== null && campaign.amountRaise !== undefined) {
+        campaign.amountRaise -= donation.amount;
+      }
+
+      await campaign.save();
+    }
+  } 
+
+  export const calculatePercentage = (thisMonth: number, lastMonth: number) => {
+    if (lastMonth === 0) return thisMonth * 100;
+    const percent = (thisMonth / lastMonth) * 100;
+    return Number(percent.toFixed(0));
+  };
+  
+  export const getInventories = async ({
+    categories,
+    productsCount,
+  }: {
+    categories: string[];
+    productsCount: number;
+  }) => {
+    const categoriesCountPromise = categories.map((category) =>
+      Campaign.countDocuments({ category })
+    );
+  
+    const categoriesCount = await Promise.all(categoriesCountPromise);
+  
+    const categoryCount: Record<string, number>[] = [];
+  
+    categories.forEach((category, i) => {
+      categoryCount.push({
+        [category]: Math.round((categoriesCount[i] / productsCount) * 100),
+      });
+    });
+  
+    return categoryCount;
+  };
+  
+  interface MyDocument extends Document {
+    createdAt: Date;
+    discount?: number;
+    total?: number;
+  }
+  type FuncProps = {
+    length: number;
+    docArr: MyDocument[];
+    today: Date;
+    property?: "discount" | "total";
+  };
+  
+  export const getChartData = ({
+    length,
+    docArr,
+    today,
+    property,
+  }: FuncProps) => {
+    const data: number[] = new Array(length).fill(0);
+  
+    docArr.forEach((i) => {
+      const creationDate = i.createdAt;
+      const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
+  
+      if (monthDiff < length) {
+        if (property) {
+          data[length - monthDiff - 1] += i[property]!;
+        } else {
+          data[length - monthDiff - 1] += 1;
+        }
+      }
+    });
+  
+    return data;
   };
