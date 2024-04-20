@@ -1,17 +1,18 @@
 import express from 'express';
-
-// importing routes
-import userRoute from './routes/user.js';
-import { connectDB } from './utils/features.js';
-import { errorMiddleware } from './middlewares/error.js';
 import NodeCache from 'node-cache';
 import {config} from 'dotenv';
-import morgan from "morgan";
+import morgan from "morgan"; 
+import Stripe from 'stripe';
 
+// importing routes
+import { connectDB } from './utils/features.js';
+import { errorMiddleware } from './middlewares/error.js';
 
+import userRoute from './routes/user.js';
 import campaignRoute from './routes/campaigns.js';
 import donationRoute from './routes/donation.js';
 import transactionRoute from './routes/transaction.js';
+
 
 const app = express();
 
@@ -21,9 +22,11 @@ config({
 
 const port = process.env.PORT || 3000;
 const mongoURI = process.env.MONGO_URI || "";
+const stripeKey = process.env.STRIPE_KEY || "";
 
 connectDB(mongoURI);
 
+export const stripe = new Stripe(stripeKey);
 export const myCache = new NodeCache();
 
 app.use(express.json());

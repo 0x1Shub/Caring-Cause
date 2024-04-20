@@ -1,204 +1,204 @@
-import { Campaign } from './../models/campaign.js';
-import { Donation } from './../models/donation.js';
-import { myCache } from "../app.js";
-import { TryCatch } from "../middlewares/error.js";
-import { User } from "../models/user.js";
-import {
-  calculatePercentage,
-  getChartData,
-  getInventories,
-} from "../utils/features.js";
+// import { Campaign } from './../models/campaign.js';
+// import { Donation } from './../models/donation.js';
+// import { myCache } from "../app.js";
+// import { TryCatch } from "../middlewares/error.js";
+// import { User } from "../models/user.js";
+// import {
+//   calculatePercentage,
+//   getChartData,
+//   getInventories,
+// } from "../utils/features.js";
 
-export const getDashboardStats = TryCatch(async (req, res, next) => {
-  let stats = {};
+// export const getDashboardStats = TryCatch(async (req, res, next) => {
+//   let stats = {};
 
-  const key = "admin-stats";
+//   const key = "admin-stats";
 
-  if (myCache.has(key)) stats = JSON.parse(myCache.get(key) as string);
-  else {
-    const today = new Date();
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+//   if (myCache.has(key)) stats = JSON.parse(myCache.get(key) as string);
+//   else {
+//     const today = new Date();
+//     const sixMonthsAgo = new Date();
+//     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-    const thisMonth = {
-      start: new Date(today.getFullYear(), today.getMonth(), 1),
-      end: today,
-    };
+//     const thisMonth = {
+//       start: new Date(today.getFullYear(), today.getMonth(), 1),
+//       end: today,
+//     };
 
-    const lastMonth = {
-      start: new Date(today.getFullYear(), today.getMonth() - 1, 1),
-      end: new Date(today.getFullYear(), today.getMonth(), 0),
-    };
+//     const lastMonth = {
+//       start: new Date(today.getFullYear(), today.getMonth() - 1, 1),
+//       end: new Date(today.getFullYear(), today.getMonth(), 0),
+//     };
 
-    const thisMonthCampaignsPromise = Campaign.find({
-      createdAt: {
-        $gte: thisMonth.start,
-        $lte: thisMonth.end,
-      },
-    });
+//     const thisMonthCampaignsPromise = Campaign.find({
+//       createdAt: {
+//         $gte: thisMonth.start,
+//         $lte: thisMonth.end,
+//       },
+//     });
 
-    const lastMonthCampaignsPromise = Campaign.find({
-      createdAt: {
-        $gte: lastMonth.start,
-        $lte: lastMonth.end,
-      },
-    });
+//     const lastMonthCampaignsPromise = Campaign.find({
+//       createdAt: {
+//         $gte: lastMonth.start,
+//         $lte: lastMonth.end,
+//       },
+//     });
 
-    const thisMonthUsersPromise = User.find({
-      createdAt: {
-        $gte: thisMonth.start,
-        $lte: thisMonth.end,
-      },
-    });
+//     const thisMonthUsersPromise = User.find({
+//       createdAt: {
+//         $gte: thisMonth.start,
+//         $lte: thisMonth.end,
+//       },
+//     });
 
-    const lastMonthUsersPromise = User.find({
-      createdAt: {
-        $gte: lastMonth.start,
-        $lte: lastMonth.end,
-      },
-    });
+//     const lastMonthUsersPromise = User.find({
+//       createdAt: {
+//         $gte: lastMonth.start,
+//         $lte: lastMonth.end,
+//       },
+//     });
 
-    const thisMonthDonationsPromise = Donation.find({
-      createdAt: {
-        $gte: thisMonth.start,
-        $lte: thisMonth.end,
-      },
-    });
+//     const thisMonthDonationsPromise = Donation.find({
+//       createdAt: {
+//         $gte: thisMonth.start,
+//         $lte: thisMonth.end,
+//       },
+//     });
 
-    const lastMonthDonationsPromise = Donation.find({
-      createdAt: {
-        $gte: lastMonth.start,
-        $lte: lastMonth.end,
-      },
-    });
+//     const lastMonthDonationsPromise = Donation.find({
+//       createdAt: {
+//         $gte: lastMonth.start,
+//         $lte: lastMonth.end,
+//       },
+//     });
 
-    const lastSixMonthDonationsPromise = Donation.find({
-      createdAt: {
-        $gte: sixMonthsAgo,
-        $lte: today,
-      },
-    });
+//     const lastSixMonthDonationsPromise = Donation.find({
+//       createdAt: {
+//         $gte: sixMonthsAgo,
+//         $lte: today,
+//       },
+//     });
 
-    const latestTransactionsPromise = Donation.find({})
-      .select(["DonationCampaigns", "discount", "total", "status"])
-      .limit(4);
+//     const latestTransactionsPromise = Donation.find({})
+//       .select(["DonationCampaigns", "discount", "total", "status"])
+//       .limit(4);
 
-    const [
-      thisMonthCampaigns,
-      thisMonthUsers,
-      thisMonthDonations,
-      lastMonthCampaigns,
-      lastMonthUsers,
-      lastMonthDonations,
-      CampaignsCount,
-      usersCount,
-      allDonations,
-      lastSixMonthDonations,
-      categories,
-      femaleUsersCount,
-      latestTransaction,
-    ] = await Promise.all([
-      thisMonthCampaignsPromise,
-      thisMonthUsersPromise,
-      thisMonthDonationsPromise,
-      lastMonthCampaignsPromise,
-      lastMonthUsersPromise,
-      lastMonthDonationsPromise,
-      Campaign.countDocuments(),
-      User.countDocuments(),
-      Donation.find({}).select("total"),
-      lastSixMonthDonationsPromise,
-      Campaign.distinct("category"),
-      User.countDocuments({ gender: "female" }),
-      latestTransactionsPromise,
-    ]);
+//     const [
+//       thisMonthCampaigns,
+//       thisMonthUsers,
+//       thisMonthDonations,
+//       lastMonthCampaigns,
+//       lastMonthUsers,
+//       lastMonthDonations,
+//       CampaignsCount,
+//       usersCount,
+//       allDonations,
+//       lastSixMonthDonations,
+//       categories,
+//       femaleUsersCount,
+//       latestTransaction,
+//     ] = await Promise.all([
+//       thisMonthCampaignsPromise,
+//       thisMonthUsersPromise,
+//       thisMonthDonationsPromise,
+//       lastMonthCampaignsPromise,
+//       lastMonthUsersPromise,
+//       lastMonthDonationsPromise,
+//       Campaign.countDocuments(),
+//       User.countDocuments(),
+//       Donation.find({}).select("total"),
+//       lastSixMonthDonationsPromise,
+//       Campaign.distinct("category"),
+//       User.countDocuments({ gender: "female" }),
+//       latestTransactionsPromise,
+//     ]);
 
-    const thisMonthRevenue = thisMonthDonations.reduce(
-      (total, Donation) => total + (Donation.total || 0),
-      0
-    );
+//     const thisMonthRevenue = thisMonthDonations.reduce(
+//       (total, Donation) => total + (Donation.total || 0),
+//       0
+//     );
 
-    const lastMonthRevenue = lastMonthDonations.reduce(
-      (total, Donation) => total + (Donation.total || 0),
-      0
-    );
+//     const lastMonthRevenue = lastMonthDonations.reduce(
+//       (total, Donation) => total + (Donation.total || 0),
+//       0
+//     );
 
-    const changePercent = {
-      revenue: calculatePercentage(thisMonthRevenue, lastMonthRevenue),
-      Campaign: calculatePercentage(
-        thisMonthCampaigns.length,
-        lastMonthCampaigns.length
-      ),
-      user: calculatePercentage(thisMonthUsers.length, lastMonthUsers.length),
-      Donation: calculatePercentage(
-        thisMonthDonations.length,
-        lastMonthDonations.length
-      ),
-    };
+//     const changePercent = {
+//       revenue: calculatePercentage(thisMonthRevenue, lastMonthRevenue),
+//       Campaign: calculatePercentage(
+//         thisMonthCampaigns.length,
+//         lastMonthCampaigns.length
+//       ),
+//       user: calculatePercentage(thisMonthUsers.length, lastMonthUsers.length),
+//       Donation: calculatePercentage(
+//         thisMonthDonations.length,
+//         lastMonthDonations.length
+//       ),
+//     };
 
-    const revenue = allDonations.reduce(
-      (total, Donation) => total + (Donation.total || 0),
-      0
-    );
+//     const revenue = allDonations.reduce(
+//       (total, Donation) => total + (Donation.total || 0),
+//       0
+//     );
 
-    const count = {
-      revenue,
-      Campaign: CampaignsCount,
-      user: usersCount,
-      Donation: allDonations.length,
-    };
+//     const count = {
+//       revenue,
+//       Campaign: CampaignsCount,
+//       user: usersCount,
+//       Donation: allDonations.length,
+//     };
 
-    const DonationMonthCounts = new Array(6).fill(0);       
-    const DonationMonthyRevenue = new Array(6).fill(0);
+//     const DonationMonthCounts = new Array(6).fill(0);       
+//     const DonationMonthyRevenue = new Array(6).fill(0);
 
-    lastSixMonthDonations.forEach((Donation) => {
-      const creationDate = Donation.createdAt;
-      const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
+//     lastSixMonthDonations.forEach((Donation) => {
+//       const creationDate = Donation.createdAt;
+//       const monthDiff = (today.getMonth() - creationDate.getMonth() + 12) % 12;
 
-      if (monthDiff < 6) {
-        DonationMonthCounts[6 - monthDiff - 1] += 1;
-        DonationMonthyRevenue[6 - monthDiff - 1] += Donation.total;
-      }
-    });
+//       if (monthDiff < 6) {
+//         DonationMonthCounts[6 - monthDiff - 1] += 1;
+//         DonationMonthyRevenue[6 - monthDiff - 1] += Donation.total;
+//       }
+//     });
 
-    const categoryCount = await getInventories({
-      categories,
-      CampaignsCount,
-    });
+//     const categoryCount = await getInventories({
+//       categories,
+//       CampaignsCount,
+//     });
 
-    const userRatio = {
-      male: usersCount - femaleUsersCount,
-      female: femaleUsersCount,
-    };
+//     const userRatio = {
+//       male: usersCount - femaleUsersCount,
+//       female: femaleUsersCount,
+//     };
 
-    const modifiedLatestTransaction = latestTransaction.map((i) => ({
-      _id: i._id,
-    //   discount: i.discount,
-      amount: i.total,
-    //   quantity: i.DonationCampaigns.length,
-      status: i.status,
-    }));
+//     const modifiedLatestTransaction = latestTransaction.map((i) => ({
+//       _id: i._id,
+//     //   discount: i.discount,
+//       amount: i.total,
+//     //   quantity: i.DonationCampaigns.length,
+//       status: i.status,
+//     }));
 
-    stats = {
-      categoryCount,
-      changePercent,
-      count,
-      chart: {
-        Donation: DonationMonthCounts,
-        revenue: DonationMonthyRevenue,
-      },
-      userRatio,
-      latestTransaction: modifiedLatestTransaction,
-    };
+//     stats = {
+//       categoryCount,
+//       changePercent,
+//       count,
+//       chart: {
+//         Donation: DonationMonthCounts,
+//         revenue: DonationMonthyRevenue,
+//       },
+//       userRatio,
+//       latestTransaction: modifiedLatestTransaction,
+//     };
 
-    myCache.set(key, JSON.stringify(stats));
-  }
+//     myCache.set(key, JSON.stringify(stats));
+//   }
 
-  return res.status(200).json({
-    success: true,
-    stats,
-  });
-});
+//   return res.status(200).json({
+//     success: true,
+//     stats,
+//   });
+// });
 
 // export const getPieCharts = TryCatch(async (req, res, next) => {
 //   let charts;
