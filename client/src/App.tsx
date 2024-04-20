@@ -5,7 +5,7 @@ import Search from './pages/Search';
 import Navbar from './components/Navbar';
 import MyFundraisers from './pages/MyFundraisers';
 
-
+import { Toaster } from 'react-hot-toast';
 
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -96,7 +96,7 @@ const App = () => {
     </Routes>
 
     </Suspense>
-      
+    <Toaster position='bottom-center' />
     </BrowserRouter>
   )
 }
