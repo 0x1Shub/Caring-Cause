@@ -3,6 +3,7 @@ import NodeCache from 'node-cache';
 import {config} from 'dotenv';
 import morgan from "morgan"; 
 import Stripe from 'stripe';
+import cors from 'cors';
 
 // importing routes
 import { connectDB } from './utils/features.js';
@@ -31,6 +32,7 @@ export const myCache = new NodeCache();
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 
 // using routes
 app.use('/api/v1/user', userRoute);
