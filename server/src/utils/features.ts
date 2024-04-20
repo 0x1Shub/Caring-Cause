@@ -11,7 +11,7 @@ export const connectDB = (uri: string) => {
 
 // export const invalidateCache = ({campaign, donation, admin} : InvalidateCacheProps) => {
 //     if(campaign) {
-//         const productKeys: string[] = [];
+//         const campaignKeys: string[] = [];
 //     }
 // };
 
@@ -23,10 +23,10 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
         "all-campaigns",
       ];
   
-      if (typeof campaignId === "string") campaignKeys.push(`product-${campaignId}`);
+      if (typeof campaignId === "string") campaignKeys.push(`campaign-${campaignId}`);
   
       if (typeof campaignId === "object")
-      campaignId.forEach((i) => campaignKeys.push(`product-${i}`));
+        campaignId.forEach((i) => campaignKeys.push(`campaign-${i}`));
   
       myCache.del(campaignKeys);
     }
@@ -47,10 +47,10 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
         "admin-line-charts",
       ]);
     }
-  };
+};
 
 
-  export const reduceRaiseAmount = async (donationCampaigns: DonationCampaignType[]) => {
+export const reduceRaiseAmount = async (donationCampaigns: DonationCampaignType[]) => {
     for(let i=0; i<donationCampaigns.length; i++){
       const donation = donationCampaigns[i];
       const campaign = await Campaign.findById(donation.campaignId);
@@ -62,20 +62,20 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
 
       await campaign.save();
     }
-  } 
+}
 
-  export const calculatePercentage = (thisMonth: number, lastMonth: number) => {
+export const calculatePercentage = (thisMonth: number, lastMonth: number) => {
     if (lastMonth === 0) return thisMonth * 100;
     const percent = (thisMonth / lastMonth) * 100;
     return Number(percent.toFixed(0));
-  };
+};
   
-  export const getInventories = async ({
+export const getInventories = async ({
     categories,
-    productsCount,
+    campaignsCount,
   }: {
     categories: string[];
-    productsCount: number;
+    campaignsCount: number;
   }) => {
     const categoriesCountPromise = categories.map((category) =>
       Campaign.countDocuments({ category })
@@ -87,12 +87,12 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
   
     categories.forEach((category, i) => {
       categoryCount.push({
-        [category]: Math.round((categoriesCount[i] / productsCount) * 100),
+        [category]: Math.round((categoriesCount[i] / campaignsCount) * 100),
       });
     });
   
     return categoryCount;
-  };
+};
   
   interface MyDocument extends Document {
     createdAt: Date;

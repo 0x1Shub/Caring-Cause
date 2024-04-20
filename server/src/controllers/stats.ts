@@ -80,7 +80,7 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
     });
 
     const latestTransactionsPromise = Donation.find({})
-      .select(["DonationItems", "discount", "total", "status"])
+      .select(["DonationCampaigns", "discount", "total", "status"])
       .limit(4);
 
     const [
@@ -173,9 +173,9 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
 
     const modifiedLatestTransaction = latestTransaction.map((i) => ({
       _id: i._id,
-      discount: i.discount,
+    //   discount: i.discount,
       amount: i.total,
-      quantity: i.DonationItems.length,
+    //   quantity: i.DonationCampaigns.length,
       status: i.status,
     }));
 
@@ -200,230 +200,230 @@ export const getDashboardStats = TryCatch(async (req, res, next) => {
   });
 });
 
-export const getPieCharts = TryCatch(async (req, res, next) => {
-  let charts;
-  const key = "admin-pie-charts";
+// export const getPieCharts = TryCatch(async (req, res, next) => {
+//   let charts;
+//   const key = "admin-pie-charts";
 
-  if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
-  else {
-    const allDonationPromise = Donation.find({}).select([
-      "total",
-      "discount",
-      "subtotal",
-      "tax",
-      "shippingCharges",
-    ]);
+//   if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
+//   else {
+//     const allDonationPromise = Donation.find({}).select([
+//       "total",
+//       "discount",
+//       "subtotal",
+//       "tax",
+//       "shippingCharges",
+//     ]);
 
-    const [
-      processingDonation,
-      shippedDonation,
-      deliveredDonation,
-      categories,
-      CampaignsCount,
-      outOfStock,
-      allDonations,
-      allUsers,
-      adminUsers,
-      customerUsers,
-    ] = await Promise.all([
-      Donation.countDocuments({ status: "Processing" }),
-      Donation.countDocuments({ status: "Shipped" }),
-      Donation.countDocuments({ status: "Delivered" }),
-      Campaign.distinct("category"),
-      Campaign.countDocuments(),
-      Campaign.countDocuments({ stock: 0 }),
-      allDonationPromise,
-      User.find({}).select(["dob"]),
-      User.countDocuments({ role: "admin" }),
-      User.countDocuments({ role: "user" }),
-    ]);
+//     const [
+//       processingDonation,
+//       shippedDonation,
+//       deliveredDonation,
+//       categories,
+//       CampaignsCount,
+//       outOfStock,
+//       allDonations,
+//       allUsers,
+//       adminUsers,
+//       customerUsers,
+//     ] = await Promise.all([
+//       Donation.countDocuments({ status: "Processing" }),
+//       Donation.countDocuments({ status: "Shipped" }),
+//       Donation.countDocuments({ status: "Delivered" }),
+//       Campaign.distinct("category"),
+//       Campaign.countDocuments(),
+//       Campaign.countDocuments({ stock: 0 }),
+//       allDonationPromise,
+//       User.find({}).select(["dob"]),
+//       User.countDocuments({ role: "admin" }),
+//       User.countDocuments({ role: "user" }),
+//     ]);
 
-    const DonationFullfillment = {
-      processing: processingDonation,
-      shipped: shippedDonation,
-      delivered: deliveredDonation,
-    };
+//     const DonationFullfillment = {
+//       processing: processingDonation,
+//       shipped: shippedDonation,
+//       delivered: deliveredDonation,
+//     };
 
-    const CampaignCategories = await getInventories({
-      categories,
-      CampaignsCount,
-    });
+//     const CampaignCategories = await getInventories({
+//       categories,
+//       CampaignsCount,
+//     });
 
-    const stockAvailablity = {
-      inStock: CampaignsCount - outOfStock,
-      outOfStock,
-    };
+//     const stockAvailablity = {
+//       inStock: CampaignsCount - outOfStock,
+//       outOfStock,
+//     };
 
-    const grossIncome = allDonations.reduce(
-      (prev, Donation) => prev + (Donation.total || 0),
-      0
-    );
+//     const grossIncome = allDonations.reduce(
+//       (prev, Donation) => prev + (Donation.total || 0),
+//       0
+//     );
 
-    const discount = allDonations.reduce(
-      (prev, Donation) => prev + (Donation.discount || 0),
-      0
-    );
+//     const discount = allDonations.reduce(
+//       (prev, Donation) => prev + (Donation.discount || 0),
+//       0
+//     );
 
-    const CampaignionCost = allDonations.reduce(
-      (prev, Donation) => prev + (Donation.shippingCharges || 0),
-      0
-    );
+//     const CampaignionCost = allDonations.reduce(
+//       (prev, Donation) => prev + (Donation.shippingCharges || 0),
+//       0
+//     );
 
-    const burnt = allDonations.reduce((prev, Donation) => prev + (Donation.tax || 0), 0);
+//     const burnt = allDonations.reduce((prev, Donation) => prev + (Donation.tax || 0), 0);
 
-    const marketingCost = Math.round(grossIncome * (30 / 100));
+//     const marketingCost = Math.round(grossIncome * (30 / 100));
 
-    const netMargin =
-      grossIncome - discount - CampaignionCost - burnt - marketingCost;
+//     const netMargin =
+//       grossIncome - discount - CampaignionCost - burnt - marketingCost;
 
-    const revenueDistribution = {
-      netMargin,
-      discount,
-      CampaignionCost,
-      burnt,
-      marketingCost,
-    };
+//     const revenueDistribution = {
+//       netMargin,
+//       discount,
+//       CampaignionCost,
+//       burnt,
+//       marketingCost,
+//     };
 
-    const usersAgeGroup = {
-      teen: allUsers.filter((i) => i.age < 20).length,
-      adult: allUsers.filter((i) => i.age >= 20 && i.age < 40).length,
-      old: allUsers.filter((i) => i.age >= 40).length,
-    };
+//     const usersAgeGroup = {
+//       teen: allUsers.filter((i) => i.age < 20).length,
+//       adult: allUsers.filter((i) => i.age >= 20 && i.age < 40).length,
+//       old: allUsers.filter((i) => i.age >= 40).length,
+//     };
 
-    const adminCustomer = {
-      admin: adminUsers,
-      customer: customerUsers,
-    };
+//     const adminCustomer = {
+//       admin: adminUsers,
+//       customer: customerUsers,
+//     };
 
-    charts = {
-      DonationFullfillment,
-      CampaignCategories,
-      stockAvailablity,
-      revenueDistribution,
-      usersAgeGroup,
-      adminCustomer,
-    };
+//     charts = {
+//       DonationFullfillment,
+//       CampaignCategories,
+//       stockAvailablity,
+//       revenueDistribution,
+//       usersAgeGroup,
+//       adminCustomer,
+//     };
 
-    myCache.set(key, JSON.stringify(charts));
-  }
+//     myCache.set(key, JSON.stringify(charts));
+//   }
 
-  return res.status(200).json({
-    success: true,
-    charts,
-  });
-});
+//   return res.status(200).json({
+//     success: true,
+//     charts,
+//   });
+// });
 
-export const getBarCharts = TryCatch(async (req, res, next) => {
-  let charts;
-  const key = "admin-bar-charts";
+// export const getBarCharts = TryCatch(async (req, res, next) => {
+//   let charts;
+//   const key = "admin-bar-charts";
 
-  if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
-  else {
-    const today = new Date();
+//   if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
+//   else {
+//     const today = new Date();
 
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+//     const sixMonthsAgo = new Date();
+//     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
-    const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+//     const twelveMonthsAgo = new Date();
+//     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
 
-    const sixMonthCampaignPromise = Campaign.find({
-      createdAt: {
-        $gte: sixMonthsAgo,
-        $lte: today,
-      },
-    }).select("createdAt");
+//     const sixMonthCampaignPromise = Campaign.find({
+//       createdAt: {
+//         $gte: sixMonthsAgo,
+//         $lte: today,
+//       },
+//     }).select("createdAt");
 
-    const sixMonthUsersPromise = User.find({
-      createdAt: {
-        $gte: sixMonthsAgo,
-        $lte: today,
-      },
-    }).select("createdAt");
+//     const sixMonthUsersPromise = User.find({
+//       createdAt: {
+//         $gte: sixMonthsAgo,
+//         $lte: today,
+//       },
+//     }).select("createdAt");
 
-    const twelveMonthDonationsPromise = Donation.find({
-      createdAt: {
-        $gte: twelveMonthsAgo,
-        $lte: today,
-      },
-    }).select("createdAt");
+//     const twelveMonthDonationsPromise = Donation.find({
+//       createdAt: {
+//         $gte: twelveMonthsAgo,
+//         $lte: today,
+//       },
+//     }).select("createdAt");
 
-    const [Campaigns, users, Donations] = await Promise.all([
-      sixMonthCampaignPromise,
-      sixMonthUsersPromise,
-      twelveMonthDonationsPromise,
-    ]);
+//     const [Campaigns, users, Donations] = await Promise.all([
+//       sixMonthCampaignPromise,
+//       sixMonthUsersPromise,
+//       twelveMonthDonationsPromise,
+//     ]);
 
-    const CampaignCounts = getChartData({ length: 6, today, docArr: Campaigns });
-    const usersCounts = getChartData({ length: 6, today, docArr: users });
-    const DonationsCounts = getChartData({ length: 12, today, docArr: Donations });
+//     const CampaignCounts = getChartData({ length: 6, today, docArr: Campaigns });
+//     const usersCounts = getChartData({ length: 6, today, docArr: users });
+//     const DonationsCounts = getChartData({ length: 12, today, docArr: Donations });
 
-    charts = {
-      users: usersCounts,
-      Campaigns: CampaignCounts,
-      Donations: DonationsCounts,
-    };
+//     charts = {
+//       users: usersCounts,
+//       Campaigns: CampaignCounts,
+//       Donations: DonationsCounts,
+//     };
 
-    myCache.set(key, JSON.stringify(charts));
-  }
+//     myCache.set(key, JSON.stringify(charts));
+//   }
 
-  return res.status(200).json({
-    success: true,
-    charts,
-  });
-});
+//   return res.status(200).json({
+//     success: true,
+//     charts,
+//   });
+// });
 
-export const getLineCharts = TryCatch(async (req, res, next) => {
-  let charts;
-  const key = "admin-line-charts";
+// export const getLineCharts = TryCatch(async (req, res, next) => {
+//   let charts;
+//   const key = "admin-line-charts";
 
-  if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
-  else {
-    const today = new Date();
+//   if (myCache.has(key)) charts = JSON.parse(myCache.get(key) as string);
+//   else {
+//     const today = new Date();
 
-    const twelveMonthsAgo = new Date();
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
+//     const twelveMonthsAgo = new Date();
+//     twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12);
 
-    const baseQuery = {
-      createdAt: {
-        $gte: twelveMonthsAgo,
-        $lte: today,
-      },
-    };
+//     const baseQuery = {
+//       createdAt: {
+//         $gte: twelveMonthsAgo,
+//         $lte: today,
+//       },
+//     };
 
-    const [Campaigns, users, Donations] = await Promise.all([
-      Campaign.find(baseQuery).select("createdAt"),
-      User.find(baseQuery).select("createdAt"),
-      Donation.find(baseQuery).select(["createdAt", "discount", "total"]),
-    ]);
+//     const [Campaigns, users, Donations] = await Promise.all([
+//       Campaign.find(baseQuery).select("createdAt"),
+//       User.find(baseQuery).select("createdAt"),
+//       Donation.find(baseQuery).select(["createdAt", "discount", "total"]),
+//     ]);
 
-    const CampaignCounts = getChartData({ length: 12, today, docArr: Campaigns });
-    const usersCounts = getChartData({ length: 12, today, docArr: users });
-    const discount = getChartData({
-      length: 12,
-      today,
-      docArr: Donations,
-      property: "discount",
-    });
-    const revenue = getChartData({
-      length: 12,
-      today,
-      docArr: Donations,
-      property: "total",
-    });
+//     const CampaignCounts = getChartData({ length: 12, today, docArr: Campaigns });
+//     const usersCounts = getChartData({ length: 12, today, docArr: users });
+//     const discount = getChartData({
+//       length: 12,
+//       today,
+//       docArr: Donations,
+//       property: "discount",
+//     });
+//     const revenue = getChartData({
+//       length: 12,
+//       today,
+//       docArr: Donations,
+//       property: "total",
+//     });
 
-    charts = {
-      users: usersCounts,
-      Campaigns: CampaignCounts,
-      discount,
-      revenue,
-    };
+//     charts = {
+//       users: usersCounts,
+//       Campaigns: CampaignCounts,
+//       discount,
+//       revenue,
+//     };
 
-    myCache.set(key, JSON.stringify(charts));
-  }
+//     myCache.set(key, JSON.stringify(charts));
+//   }
 
-  return res.status(200).json({
-    success: true,
-    charts,
-  });
-});
+//   return res.status(200).json({
+//     success: true,
+//     charts,
+//   });
+// });
