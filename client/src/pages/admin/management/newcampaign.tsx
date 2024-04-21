@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 
-const NewProduct = () => {
+const NewCampaign = () => {
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
-  const [price, setPrice] = useState<number>(1000);
-  const [stock, setStock] = useState<number>(1);
+  const [amountGoal, setAmountGoal] = useState<number>(1000);
+  const [amountRaised, setAmountRaised] = useState<number>(1);
   const [photoPrev, setPhotoPrev] = useState<string>("");
   const [photo, setPhoto] = useState<File>();
 
@@ -42,21 +42,21 @@ const NewProduct = () => {
               />
             </div>
             <div>
-              <label>Price</label>
+              <label>Goal Amount</label>
               <input
                 type="number"
-                placeholder="Price"
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
+                placeholder="AmountGoal"
+                value={amountGoal}
+                onChange={(e) => setAmountGoal(Number(e.target.value))}
               />
             </div>
             <div>
-              <label>Stock</label>
+              <label>Raised Amount</label>
               <input
                 type="number"
-                placeholder="Stock"
-                value={stock}
-                onChange={(e) => setStock(Number(e.target.value))}
+                placeholder="AmountRaised"
+                value={amountRaised}
+                onChange={(e) => setAmountRaised(Number(e.target.value))}
               />
             </div>
 
@@ -64,7 +64,7 @@ const NewProduct = () => {
               <label>Category</label>
               <input
                 type="text"
-                placeholder="eg. laptop, camera etc"
+                placeholder="eg. education, emergencies etc"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               />
@@ -84,4 +84,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default NewCampaign;

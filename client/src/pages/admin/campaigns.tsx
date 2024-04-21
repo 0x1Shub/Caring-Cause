@@ -8,8 +8,9 @@ import TableHOC from "../../components/admin/TableHOC";
 interface DataType {
   photo: ReactElement;
   name: string;
-  price: number;
-  stock: number;
+  amountGoal: number;
+  amountRaised: number;
+  timeBound: number,
   action: ReactElement;
 }
 
@@ -23,12 +24,16 @@ const columns: Column<DataType>[] = [
     accessor: "name",
   },
   {
-    Header: "Price",
-    accessor: "price",
+    Header: "Goal Amount",
+    accessor: "amountGoal",
   },
   {
-    Header: "Stock",
-    accessor: "stock",
+    Header: "Raised Amount",
+    accessor: "amountRaised",
+  },
+  {
+    Header: "Time",
+    accessor: "timeBound",
   },
   {
     Header: "Action",
@@ -44,22 +49,24 @@ const img2 = "https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg";
 const arr: Array<DataType> = [
   {
     photo: <img src={img} alt="Shoes" />,
-    name: "Puma Shoes Air Jordan Cook Nigga 2023",
-    price: 690,
-    stock: 3,
-    action: <Link to="/admin/product/sajknaskd">Manage</Link>,
+    name: "Fund for Education",
+    amountGoal: 25000,
+    amountRaised: 3000,
+    timeBound: 30,
+    action: <Link to="/admin/campaign/sajknaskd">Manage</Link>,
   },
 
   {
     photo: <img src={img2} alt="Shoes" />,
     name: "Macbook",
-    price: 232223,
-    stock: 213,
-    action: <Link to="/admin/product/sdaskdnkasjdn">Manage</Link>,
+    amountGoal: 25000,
+    amountRaised: 3000,
+    timeBound: 30,
+    action: <Link to="/admin/campaign/sdaskdnkasjdn">Manage</Link>,
   },
 ];
 
-const Products = () => {
+const Campaigns = () => {
   const [rows, setRows] = useState<DataType[]>(arr);
 
   const Table = TableHOC<DataType>(
@@ -74,11 +81,11 @@ const Products = () => {
     <div className="admin-container">
       <AdminSidebar />
       <main>{Table}</main>
-      <Link to="/admin/product/new" className="create-product-btn">
+      <Link to="/admin/campaign/new" className="create-product-btn">
         <FaPlus />
       </Link>
     </div>
   );
 };
 
-export default Products;
+export default Campaigns;

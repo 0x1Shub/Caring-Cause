@@ -1,19 +1,10 @@
 import { useEffect, useState } from "react";
 import { AiFillFileText } from "react-icons/ai";
-import {
-  FaChartBar,
-  FaChartLine,
-  FaChartPie,
-  FaGamepad,
-  FaStopwatch,
-} from "react-icons/fa";
+import {FaChartBar, FaChartLine, FaChartPie, FaGamepad, FaStopwatch, FaFileAlt } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
-import {
-  RiCoupon3Fill,
-  RiDashboardFill,
-  RiShoppingBag3Fill,
-} from "react-icons/ri";
+import { RiCoupon3Fill, RiDashboardFill, RiShoppingBag3Fill} from "react-icons/ri";
+import { FcMoneyTransfer } from "react-icons/fc";
 import { Link, Location, useLocation } from "react-router-dom";
 import { IconType } from "react-icons";
 
@@ -59,10 +50,10 @@ const AdminSidebar = () => {
             : {}
         }
       >
-        <h2>Logo.</h2>
+        <h2>Caring-Cause</h2>
         <DivOne location={location} />
         <DivTwo location={location} />
-        <DivThree location={location} />
+        {/* <DivThree location={location} /> */}
 
         {phoneActive && (
           <button id="close-sidebar" onClick={() => setShowModal(false)}>
@@ -85,21 +76,21 @@ const DivOne = ({ location }: { location: Location }) => (
         location={location}
       />
       <Li
-        url="/admin/product"
-        text="Product"
-        Icon={RiShoppingBag3Fill}
+        url="/admin/campaign"
+        text="Campaigns"
+        Icon={FaFileAlt}
         location={location}
       />
       <Li
-        url="/admin/customer"
-        text="Customer"
+        url="/admin/user"
+        text="Users"
         Icon={IoIosPeople}
         location={location}
       />
       <Li
         url="/admin/transaction"
         text="Transaction"
-        Icon={AiFillFileText}
+        Icon={FcMoneyTransfer}
         location={location}
       />
     </ul>
@@ -132,31 +123,31 @@ const DivTwo = ({ location }: { location: Location }) => (
   </div>
 );
 
-const DivThree = ({ location }: { location: Location }) => (
-  <div>
-    <h5>Apps</h5>
-    <ul>
-      <Li
-        url="/admin/app/stopwatch"
-        text="Stopwatch"
-        Icon={FaStopwatch}
-        location={location}
-      />
-      <Li
-        url="/admin/app/coupon"
-        text="Coupon"
-        Icon={RiCoupon3Fill}
-        location={location}
-      />
-      <Li
-        url="/admin/app/toss"
-        text="Toss"
-        Icon={FaGamepad}
-        location={location}
-      />
-    </ul>
-  </div>
-);
+// const DivThree = ({ location }: { location: Location }) => (
+//   <div>
+//     <h5>Apps</h5>
+//     <ul>
+//       <Li
+//         url="/admin/app/stopwatch"
+//         text="Stopwatch"
+//         Icon={FaStopwatch}
+//         location={location}
+//       />
+//       <Li
+//         url="/admin/app/coupon"
+//         text="Coupon"
+//         Icon={RiCoupon3Fill}
+//         location={location}
+//       />
+//       <Li
+//         url="/admin/app/toss"
+//         text="Toss"
+//         Icon={FaGamepad}
+//         location={location}
+//       />
+//     </ul>
+//   </div>
+// );
 
 interface LiProps {
   url: string;

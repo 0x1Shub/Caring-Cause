@@ -1,27 +1,29 @@
 import { Suspense, lazy } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Loader from './components/Loader';
-import Search from './pages/Search';
-import Navbar from './components/Navbar';
-import MyFundraisers from './pages/MyFundraisers';
-
 import { Toaster } from 'react-hot-toast';
+
+import Navbar from './components/Navbar';
+import Loader from './components/Loader';
+
+import Search from './pages/Search';
+
+import MyFundraisers from './pages/Profile/MyFundraisers';
 
 
 const Home = lazy(() => import("./pages/Home/Home"));
-const NewCampaign = lazy(() => import('./pages/NewCampaign'));
-const Fundraisers = lazy(() => import('./pages/Fundraisers'));
+const NewCampaign = lazy(() => import('./pages/Campaigns/CampaignCreate'));
+const Fundraisers = lazy(() => import('./pages/Campaigns/Fundraisers'));
 
-const CampaignDetails = lazy(() => import('./pages/CampaignDetails'));
+const CampaignDetails = lazy(() => import('./pages/Campaigns/CampaignDetails'));
 const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
 
 const Checkout = lazy(() => import('./pages/Checkout'));
 const Login = lazy(() => import('./pages/Login'));
 
-// Admin routed importing
+// Admin Routes Components
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
-const Products = lazy(() => import("./pages/admin/products"));
-const Customers = lazy(() => import("./pages/admin/customers"));
+const Campaigns = lazy(() => import("./pages/admin/campaigns"));
+const Customers = lazy(() => import("./pages/admin/users"));
 const Transaction = lazy(() => import("./pages/admin/transaction"));
 const Barcharts = lazy(() => import("./pages/admin/charts/barcharts"));
 const Piecharts = lazy(() => import("./pages/admin/charts/piecharts"));
@@ -29,19 +31,18 @@ const Linecharts = lazy(() => import("./pages/admin/charts/linecharts"));
 const Coupon = lazy(() => import("./pages/admin/apps/coupon"));
 const Stopwatch = lazy(() => import("./pages/admin/apps/stopwatch"));
 const Toss = lazy(() => import("./pages/admin/apps/toss"));
-const NewProduct = lazy(() => import("./pages/admin/management/newproduct"));
-const ProductManagement = lazy(
-  () => import("./pages/admin/management/productmanagement")
-);
-const TransactionManagement = lazy(
-  () => import("./pages/admin/management/transactionmanagement")
-);
+const NewProduct = lazy(() => import("./pages/admin/management/newcampaign"));
+const ProductManagement = lazy(() => import("./pages/admin/management/productmanagement"));
+const TransactionManagement = lazy(() => import("./pages/admin/management/transactionmanagement"));
 
 
 const App = () => {
   return (
     <BrowserRouter>
+    
+    {/* Navbar */}
     <Navbar />
+    
     <Suspense fallback={<Loader />}>
     <Routes>
         <Route path='/' element={<Home />}  />
@@ -73,8 +74,8 @@ const App = () => {
           // element={<ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />} 
         >
           <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/product" element={<Products />} />
-          <Route path="/admin/customer" element={<Customers />} />
+          <Route path="/admin/campaign" element={<Campaigns />} />
+          <Route path="/admin/user" element={<Customers />} />
           <Route path="/admin/transaction" element={<Transaction />} />
 
           {/* Charts */}
@@ -88,12 +89,12 @@ const App = () => {
           <Route path="/admin/app/toss" element={<Toss />} />
 
           {/* Management */}
-          <Route path="/admin/product/new" element={<NewProduct />} />
-          <Route path="/admin/product/:id" element={<ProductManagement />} />
+          <Route path="/admin/campaign/new" element={<NewProduct />} />
+          <Route path="/admin/campaign/:id" element={<ProductManagement />} />
           <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
         </Route>;
 
-    </Routes>
+      </Routes>
 
     </Suspense>
     <Toaster position='bottom-center' />

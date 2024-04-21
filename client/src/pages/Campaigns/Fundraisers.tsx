@@ -1,5 +1,5 @@
 import { useState } from "react"
-import CampaignCard from "../components/CampaignCard";
+import CampaignCard from "../../components/CampaignCard";
 
 const Fundraisers = () => {
 
@@ -52,7 +52,7 @@ const Fundraisers = () => {
         <input type="text" placeholder="Search by name..." value={search} onChange={(e) => setSearch(e.target.value)} />
 
         <div className="search-campaign-list">
-            <CampaignCard campaignId="asa" title="Education" amount={100000} days={35} handler={addToCartHandler} photo="https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg" />
+        <CampaignCard campaignId="asa" name="John Doe" title="Education" amount={5000} goalAmount={25000} days={35} handler={addToCartHandler} photo="https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg" />
         </div>
 
         <article>

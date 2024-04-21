@@ -5,7 +5,7 @@ import { HiOutlineSearch} from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useState } from "react";
 
-const user = {_id: "", role: ""};
+const user = {_id: "asas", role: "admin"};
 
 
 const Navbar = () => {
@@ -31,8 +31,11 @@ const Navbar = () => {
       {/* NavBar Items */}
       <div className={'nav-items'}>
           <Link className="link" to={'/'}>Home</Link>
-          <Link className="link" to={'/campaigns/create'}>Start a Fundraiser</Link>
-          <Link className="link" to={'/fundraisers'}>Donation</Link>
+          <div className="fundraiser">
+            <Link className="link" to={'/campaigns/create'}>Start a Fundraiser</Link>
+          </div>
+          
+          <Link className="link" to={'/fundraisers'}>Donate</Link>
           <Link className="link" to={'/'}>How it Works</Link>
           <Link to={'/search'} className="link">
               <HiOutlineSearch className="searchIcon" />
@@ -63,8 +66,8 @@ const Navbar = () => {
                             <>
                               <HiOutlineUserCircle className="userIcon" onClick={() => setIsOpen((prev) => !prev)} />
                               <div className="drop-down">
-                                <dialog open={isOpen}>
-                                    <Link onClick={() => setIsOpen(false)} to={'/login'}>Log In</Link>
+                                <dialog open={isOpen} className="authenticate">
+                                    <Link onClick={() => setIsOpen(false)} to={'/login'}>Log In</Link><br></br>
                                     <Link onClick={() => setIsOpen(false)} to={'/signup'}>Sign Up</Link>
                                 </dialog>
                               </div> 

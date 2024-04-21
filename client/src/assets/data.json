@@ -2,20 +2,20 @@
   "categories": [
     {
       "value": 40,
-      "heading": "Laptops"
+      "heading": "Education"
     },
 
     {
       "value": 100,
-      "heading": "Shoes"
+      "heading": "Emergecies"
     },
     {
       "value": 80,
-      "heading": "Cameras"
+      "heading": "Memorials"
     },
     {
       "value": 60,
-      "heading": "Jeans"
+      "heading": "Medical"
     }
   ],
 
@@ -23,29 +23,25 @@
     {
       "_id": "ksdnfkjsdfx",
       "amount": 4000,
-      "quantity": 4,
-      "discount": 300,
+      "campaignId": 4,
       "status": "Processing"
     },
     {
       "_id": "sdsdssdsd",
       "amount": 5100,
-      "quantity": 2,
-      "discount": 900,
+      "campaignId": 2,
       "status": "Processing"
     },
     {
       "_id": "sdsdcvsssdsd",
       "amount": 13000,
-      "quantity": 91,
-      "discount": 0,
-      "status": "Shipped"
+      "campaignId": 1,
+      "status": "Donated"
     },
     {
       "_id": "dfddddfd",
       "amount": 2300,
-      "quantity": 4,
-      "discount": 2000,
+      "campaignId": 4,
       "status": "Processing"
     }
   ]

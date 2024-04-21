@@ -1,26 +1,32 @@
 import { Link } from "react-router-dom";
+import CircleRating from "./CircleRating";
 
 type CampaignProps = {
     campaignId: string;
     photo: string;
     title: string;
+    name:string;
     amount: number;
+    goalAmount: number; 
     days: number;
     handler: () => void;
 };
 const server = 'asasa';
 
-const CampaignCard = ({campaignId, amount, title, photo, days, handler} : CampaignProps) => {
+const CampaignCard = ({campaignId, amount, name, title, photo, days, goalAmount, handler} : CampaignProps) => {
   return (
     <div className="campaign-card">
         <img src={photo} alt={title} />
-        <p>{title}</p>
-        <span>₹ {amount}</span>
+        <p className="title">{title}</p>
+        <p className="author">Created by: {name}</p>
+        <CircleRating amountRaised={(amount / goalAmount)*100} />
+        <span>₹ {amount} raised out of ₹{goalAmount}</span>
+
         <span>Remaining time: {days} days</span>
 
-        <div>
+        <div className="btn">
             <Link className="donation" to={`fundraisers/id:${campaignId}`} onClick={() => handler()}>
-                <span>Donation</span>
+                <span>Donate</span>
             </Link>
             <Link className="share" to={'/'} onClick={() => handler()}>
                 <span>Share</span>

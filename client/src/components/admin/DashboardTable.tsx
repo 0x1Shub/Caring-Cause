@@ -3,24 +3,19 @@ import TableHOC from "./TableHOC";
 
 interface DataType {
   _id: string;
-  quantity: number;
-  discount: number;
+  campaignId: number;
   amount: number;
   status: string;
 }
 
 const columns: Column<DataType>[] = [
   {
-    Header: "Id",
+    Header: "Trasaction Id",
     accessor: "_id",
   },
   {
-    Header: "Quantity",
-    accessor: "quantity",
-  },
-  {
-    Header: "Discount",
-    accessor: "discount",
+    Header: "Campaign ID",
+    accessor: "campaignId",
   },
   {
     Header: "Amount",

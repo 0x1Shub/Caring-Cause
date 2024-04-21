@@ -8,7 +8,7 @@ interface DataType {
   avatar: ReactElement;
   name: string;
   email: string;
-  gender: string;
+  mobile: number;
   role: string;
   action: ReactElement;
 }
@@ -23,8 +23,8 @@ const columns: Column<DataType>[] = [
     accessor: "name",
   },
   {
-    Header: "Gender",
-    accessor: "gender",
+    Header: "Mobile",
+    accessor: "mobile",
   },
   {
     Header: "Email",
@@ -56,7 +56,7 @@ const arr: Array<DataType> = [
     ),
     name: "Emily Palmer",
     email: "emily.palmer@example.com",
-    gender: "female",
+    mobile: 990912120,
     role: "user",
     action: (
       <button>
@@ -77,7 +77,7 @@ const arr: Array<DataType> = [
     ),
     name: "May Scoot",
     email: "aunt.may@example.com",
-    gender: "female",
+    mobile: 9121212910,
     role: "user",
     action: (
       <button>

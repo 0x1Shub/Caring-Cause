@@ -7,21 +7,25 @@ type CampaignItemsProps = {
 
 
 const CampaignItems = ({campaignItem}:CampaignItemsProps) => {
-    const {photo, campaignId, title, amountRaise, days} = campaignItem;
+    const {photo, campaignId, title, amountRaised, amountGoal} = campaignItem;
   return (
     <div className="campaign-item">
         <img src={photo} alt={title} />
         <span>{title}</span>
         <article>
-            <Link to={`/campaign/:id${campaignId}`}></Link>
-            <span>₹{amountRaise}</span>
+            <Link to={`/campaign/${campaignId}`}></Link>
+            <div>
+                <span>Amount Raise: <span>₹{amountRaised}</span></span>
+                <br></br>
+                <span>Goal Amount : <span>₹{amountGoal}</span></span>
+            </div>
         </article>
 
-        <div>
+        {/* <div>
             <button>-</button>
             <p>name</p>
             <button>+</button>
-        </div>
+        </div> */}
 
         <FaTrash />
     </div>

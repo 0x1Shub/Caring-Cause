@@ -5,15 +5,15 @@ import AdminSidebar from "../../../components/admin/AdminSidebar";
 const img =
   "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
 
-const Productmanagement = () => {
-  const [price, setPrice] = useState<number>(2000);
-  const [stock, setStock] = useState<number>(10);
-  const [name, setName] = useState<string>("Puma Shoes");
+const CampaignManagement = () => {
+  const [amountGoal, setAmountGoal] = useState<number>(2000);
+  const [amountRaised, setAmountRaised] = useState<number>(10);
+  const [name, setName] = useState<string>("Education");
   const [photo, setPhoto] = useState<string>(img);
-  const [category, setCategory] = useState<string>("footwear");
+  const [category, setCategory] = useState<string>("Education");
 
-  const [priceUpdate, setPriceUpdate] = useState<number>(price);
-  const [stockUpdate, setStockUpdate] = useState<number>(stock);
+  const [amountGoalUpdate, setAmountGoalUpdate] = useState<number>(amountGoal);
+  const [amountRaisedUpdate, setAmountRaisedUpdate] = useState<number>(amountRaised);
   const [nameUpdate, setNameUpdate] = useState<string>(name);
   const [categoryUpdate, setCategoryUpdate] = useState<string>(category);
   const [photoUpdate, setPhotoUpdate] = useState<string>(photo);
@@ -38,8 +38,8 @@ const Productmanagement = () => {
   const submitHandler = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setName(nameUpdate);
-    setPrice(priceUpdate);
-    setStock(stockUpdate);
+    setAmountGoal(amountGoalUpdate);
+    setAmountRaised(amountRaisedUpdate);
     setPhoto(photoUpdate);
   };
 
@@ -51,12 +51,12 @@ const Productmanagement = () => {
           <strong>ID - fsdfsfsggfgdf</strong>
           <img src={photo} alt="Product" />
           <p>{name}</p>
-          {stock > 0 ? (
-            <span className="green">{stock} Available</span>
+          {amountRaised > 0 ? (
+            <span className="green">{amountRaised} Available</span>
           ) : (
             <span className="red"> Not Available</span>
           )}
-          <h3>₹{price}</h3>
+          <h3>₹{amountGoal}</h3>
         </section>
         <article>
           <button className="product-delete-btn">
@@ -74,21 +74,21 @@ const Productmanagement = () => {
               />
             </div>
             <div>
-              <label>Price</label>
+              <label>Goal Amount</label>
               <input
                 type="number"
-                placeholder="Price"
-                value={priceUpdate}
-                onChange={(e) => setPriceUpdate(Number(e.target.value))}
+                placeholder="Goal Amount"
+                value={amountGoalUpdate}
+                onChange={(e) => setAmountGoalUpdate(Number(e.target.value))}
               />
             </div>
             <div>
-              <label>Stock</label>
+              <label>Raised Amount</label>
               <input
                 type="number"
                 placeholder="Stock"
-                value={stockUpdate}
-                onChange={(e) => setStockUpdate(Number(e.target.value))}
+                value={amountRaisedUpdate}
+                onChange={(e) => setAmountRaisedUpdate(Number(e.target.value))}
               />
             </div>
 
@@ -116,4 +116,4 @@ const Productmanagement = () => {
   );
 };
 
-export default Productmanagement;
+export default CampaignManagement;

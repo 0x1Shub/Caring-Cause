@@ -48,11 +48,15 @@ $color3: rgb(0, 104, 136);
   @import "admin/mixin";
   
   @import "components/Navbar";
+  @import "components/CircularRating.scss";
+
   @import "pages/Home.scss";
+
   @import "pages/MyFundraisers.scss";
   @import "pages/Checkout.scss";
   @import "pages/Login.scss";
   @import "pages/Fundraisers.scss";
+  @import "pages/CampaignCreate.scss";
 
   @import "admin/dashboard";
   @import "admin/products";
@@ -141,6 +145,7 @@ $color3: rgb(0, 104, 136);
   
   .admin-container {
     @include grid(1fr 4fr, 2rem);
+    margin-top: 80px;
     height: 100vh;
     background-color: rgb(247, 247, 247);
     > aside {

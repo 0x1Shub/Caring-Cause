@@ -1,22 +1,24 @@
 import { useEffect, useState } from "react";
 import { VscError } from 'react-icons/vsc'
-import CampaignItems from "../components/CampaignItems";
+import CampaignItems from "../../components/CampaignItems";
 import { Link } from "react-router-dom";
 
 const campaignsItem = [
     {
         campaignId: "asas",
         photo : "https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg",
-        title : "Education",
-        amountRaise : 3000,
-        days : 10
+        title : "Fund Me Studies",
+        amountRaised : 3000,
+        amountGoal : 10000,
     }
 ];
+
 const subtotal = 40000;
 const tax = Math.round(subtotal*0.18);
 const shippingCharges = 200;
-const total = subtotal - tax - shippingCharges;
-const discount = 400;
+const rewards = 400;
+const total = subtotal - tax - shippingCharges + rewards;
+
 
 
 const MyFundraisers = () => {
@@ -56,7 +58,7 @@ const MyFundraisers = () => {
             <p>Shipping charges: ₹{shippingCharges}</p>
             <p>Tax: ₹{tax}</p>
 
-            <p>Discount: <em>- ₹{discount}</em></p>
+            <p>Reward: <em> ₹{rewards}</em></p>
 
             <p>
                 <b>Total :₹{total}</b>
@@ -65,7 +67,7 @@ const MyFundraisers = () => {
             <input placeholder="coupon code" type="text" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
 
             {
-                couponCode && (isValidCouponCode ? <span className="green"> ₹{discount} off using the <code>{couponCode}</code></span>
+                couponCode && (isValidCouponCode ? <span className="green"> ₹{rewards} extra reward using the <code>{couponCode}</code></span>
                 : <span className="red">Invalid Coupon! <VscError /></span>)
             }
 

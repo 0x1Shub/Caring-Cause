@@ -21,7 +21,7 @@ const Dashboard = () => {
       <main className="dashboard">
         <div className="bar">
           <BsSearch />
-          <input type="text" placeholder="Search for data, users, docs" />
+          <input type="text" placeholder="Search for data, users, campaign" />
           <FaRegBell />
           <img src={userImg} alt="User" />
         </div>
@@ -31,7 +31,7 @@ const Dashboard = () => {
             percent={40}
             amount={true}
             value={340000}
-            heading="Revenue"
+            heading="Fundraise"
             color="rgb(0, 115, 255)"
           />
           <WidgetItem
@@ -51,17 +51,17 @@ const Dashboard = () => {
             percent={30}
             value={1000}
             color="rgb(76 0 255)"
-            heading="Products"
+            heading="Campaigns"
           />
         </section>
 
         <section className="graph-container">
           <div className="revenue-chart">
-            <h2>Revenue & Transaction</h2>
+            <h2>Fundraise & Transaction</h2>
             <BarChart
               data_2={[300, 144, 433, 655, 237, 755, 190]}
               data_1={[200, 444, 343, 556, 778, 455, 990]}
-              title_1="Revenue"
+              title_1="Fundraise"
               title_2="Transaction"
               bgColor_1="rgb(0, 115, 255)"
               bgColor_2="rgba(53, 162, 235, 0.8)"
@@ -69,7 +69,7 @@ const Dashboard = () => {
           </div>
 
           <div className="dashboard-categories">
-            <h2>Inventory</h2>
+            <h2>Categories</h2>
 
             <div>
               {data.categories.map((i) => (

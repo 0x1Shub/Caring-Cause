@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
@@ -12,8 +13,8 @@ const orderItems: OrderItem[] = [
     name: "Puma Shoes",
     photo: img,
     id: "asdsaasdas",
-    quantity: 4,
-    price: 2000,
+    campaignId: 4,
+    amount: 2000,
   },
 ];
 
