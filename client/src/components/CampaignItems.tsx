@@ -1,5 +1,6 @@
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { MdModeEdit } from "react-icons/md";
 
 type CampaignItemsProps = {
     campaignItem : any;
@@ -26,6 +27,16 @@ const CampaignItems = ({campaignItem}:CampaignItemsProps) => {
             <p>name</p>
             <button>+</button>
         </div> */}
+
+        <div>
+            <Link to={`campaign/edit/${campaignId}`}>
+                <MdModeEdit />
+            </Link>
+        </div>
+
+        <div>
+
+        </div>
 
         <FaTrash />
     </div>

@@ -32,15 +32,17 @@ const Fundraisers = () => {
 
         <div>
           <h4>Max Price : {maxPrice || ""}</h4>
-          <input type="range" min={"100"} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} />
+          <input type="range" min={100} max={100000} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} />
         </div>
 
         <div>
           <h4>Category</h4>
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">All</option>
-            <option value="asc">Sample 1</option>
-            <option value="dsc">Sample 2</option>
+            <option value="asc">Education</option>
+            <option value="dsc">Emergencies</option>
+            <option value="dsc">Health-Care</option>
+            <option value="dsc">Memorials</option>
           </select>
         </div>
 
@@ -52,7 +54,7 @@ const Fundraisers = () => {
         <input type="text" placeholder="Search by name..." value={search} onChange={(e) => setSearch(e.target.value)} />
 
         <div className="search-campaign-list">
-        <CampaignCard campaignId="asa" name="John Doe" title="Education" amount={5000} goalAmount={25000} days={35} handler={addToCartHandler} photo="https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg" />
+          <CampaignCard campaignId="asa" name="John Doe" title="Education" amount={5000} goalAmount={25000} days={35} handler={addToCartHandler} photo="https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg" />
         </div>
 
         <article>

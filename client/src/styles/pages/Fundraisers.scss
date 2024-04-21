@@ -45,9 +45,12 @@
   
       .search-campaign-list {
         @include flex(row, flex-start, flex-start);
+        width: 300px;
+        height: 400px;
         flex-wrap: wrap;
-        height: calc(100% - 10rem);
-        overflow-y: auto;
+        // height: calc(100% - 10rem);
+        overflow-y: hidden;
+        overflow-x: hidden
       }
       // $p: 0.5rem 1rem, $bg, $color
       article {

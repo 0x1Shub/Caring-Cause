@@ -7,7 +7,7 @@ type DataType = {
     id: string;
     amount: Number;
     campaignTitle : string;
-    compaignId : Number;
+    transactionId : Number;
     status: ReactElement;
     action: ReactElement;
 }
@@ -26,13 +26,17 @@ const column : Column<DataType>[] = [
     accessor: "campaignTitle",
     },
     {
-        Header: "Campaign ID",
-        accessor: "compaignId",
+        Header: "Transaction ID",
+        accessor: "transactionId",
     },
     {
-    Header: "Status",
-    accessor: "status",
+        Header: "Status",
+        accessor: "status",
     },
+    {
+        Header: "Action",
+        accessor: "action",
+    }
 ]
 
 const MyDonations = () => {
@@ -42,9 +46,9 @@ const MyDonations = () => {
             id: "asasa",
             amount: 2000,
             campaignTitle : "Education",
-            compaignId : 12,
+            transactionId : 20,
             status: <span className="red">Processing</span>,
-            action: <Link to={`/campaign/asas`}>View</Link>,
+            action: <Link to={`/donation/view/asas`}>View</Link>,
         }    
 ])
 

@@ -19,8 +19,12 @@ const CampaignCard = ({campaignId, amount, name, title, photo, days, goalAmount,
         <img src={photo} alt={title} />
         <p className="title">{title}</p>
         <p className="author">Created by: {name}</p>
-        <CircleRating amountRaised={(amount / goalAmount)*100} />
-        <span>₹ {amount} raised out of ₹{goalAmount}</span>
+
+        <div className="rating">
+            <CircleRating amountRaised={(amount / goalAmount)*100} />
+            <span>₹ {amount} raised out of ₹{goalAmount}</span>
+        </div>
+        
 
         <span>Remaining time: {days} days</span>
 
