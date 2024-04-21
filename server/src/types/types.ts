@@ -56,6 +56,7 @@ export type DonationCampaignType = {
   photo: string;
   amount: number;
   campaignId: string;
+  transactionId: Number,
 };
 
 export type DonationInfoType = {
@@ -67,11 +68,10 @@ export type DonationInfoType = {
 
 export interface NewDonationRequestBody {
   donationInfo: DonationInfoType;
-  user: string;
+  userId: string;
   subtotal: number;
   tax: number;
-  shippingCharges: number;
-  discount: number;
+  reward: number;
   total: number;
-  donationCampaign: DonationCampaignType[];
+  donationCampaigns: DonationCampaignType[];
 }

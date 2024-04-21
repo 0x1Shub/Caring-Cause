@@ -30,19 +30,28 @@ const schema = new mongoose.Schema(
             type:Number,
             require: true,
         },
+        tax:{
+            type:Number,
+            require: true,
+        },
+        reward:{
+            type:Number,
+            require: true,
+        },
         total: {
             type:Number,
             require: true,
         },
         status: {
             type: String,
-            enum: ["Processing", "Shipped", "Delivered"],
+            enum: ["Processing",  "Donated"],
             default: "Processing",
         },
         donationCampaigns: {
             name: String,
             photo: String,
             amount: Number,
+            transactionId: Number,
             campaignId: {
                 type: mongoose.Types.ObjectId,
                 ref: 'Campaign',

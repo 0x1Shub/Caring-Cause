@@ -9,11 +9,6 @@ export const connectDB = (uri: string) => {
     }).then(c=>console.log(`DB Connected to ${c.connection.host}`)).catch(e=>console.log(e));
 }   
 
-// export const invalidateCache = ({campaign, donation, admin} : InvalidateCacheProps) => {
-//     if(campaign) {
-//         const campaignKeys: string[] = [];
-//     }
-// };
 
 export const invalidateCache = ({campaign, donation, admin, userId, donationId, campaignId}: InvalidateCacheProps) => {
     if (campaign) {
@@ -30,6 +25,7 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
   
       myCache.del(campaignKeys);
     }
+    
     if (donation) {
       const donationKeys: string[] = [
         "all-donations",
@@ -39,6 +35,7 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
   
       myCache.del(donationKeys);
     }
+
     if (admin) {
       myCache.del([
         "admin-stats",
@@ -50,14 +47,14 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
 };
 
 
-export const reduceRaiseAmount = async (donationCampaigns: DonationCampaignType[]) => {
+export const reduceGoalAmount = async (donationCampaigns: DonationCampaignType[]) => {
     for(let i=0; i<donationCampaigns.length; i++){
       const donation = donationCampaigns[i];
       const campaign = await Campaign.findById(donation.campaignId);
       if(!campaign) throw new Error("Campaign Not found");
 
-      if (campaign && campaign.amountRaise !== null && campaign.amountRaise !== undefined) {
-        campaign.amountRaise -= donation.amount;
+      if (campaign && campaign.amountGoal !== null && campaign.amountGoal !== undefined) {
+        campaign.amountGoal -= donation.amount;
       }
 
       await campaign.save();
@@ -99,7 +96,7 @@ export const getInventories = async ({
     discount?: number;
     total?: number;
   }
-  
+
   type FuncProps = {
     length: number;
     docArr: MyDocument[];

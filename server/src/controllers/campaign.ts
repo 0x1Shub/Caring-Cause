@@ -9,7 +9,7 @@ import { invalidateCache } from '../utils/features.js';
 // import  {faker} from '@faker-js/faker';
 
 
-// Revalidate on New Update Delete
+// Revalidate on New, Update, Delete
 
 export const getlatestCampaign = TryCatch(async (req, res, next) => {
 
