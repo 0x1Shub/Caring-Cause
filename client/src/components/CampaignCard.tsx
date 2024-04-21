@@ -11,7 +11,6 @@ type CampaignProps = {
     days: number;
     handler: () => void;
 };
-const server = 'asasa';
 
 const CampaignCard = ({campaignId, amount, name, title, photo, days, goalAmount, handler} : CampaignProps) => {
   return (

@@ -1,5 +1,5 @@
 .fundraisers-page {
-    margin-top: 60px;
+    margin-top: 70px;
     padding: 2rem;
     @include flex(row, flex-start, stretch, 2rem);
     min-height: calc(100vh - 6.5vh);
@@ -48,9 +48,128 @@
         width: 300px;
         height: 400px;
         flex-wrap: wrap;
-        // height: calc(100% - 10rem);
+        height: calc(100% - 10rem);
         overflow-y: hidden;
-        overflow-x: hidden
+        overflow-x: hidden;
+        
+        .campaign-card {
+          width: 15rem;
+          height: 25rem;
+          padding: 1rem;
+          margin-top: -50px;
+          display: flex;
+          flex: none;
+          @include flex(column, flex-start, center, 4px);
+          position: relative;
+          background-color: white;
+        
+          &:hover .btn {
+            opacity: 1;
+          }
+        
+          img {
+            @include square(calc(15rem - 2rem));
+            object-fit: cover;
+            margin: 1rem;
+          }
+  
+          .title{
+              font-weight: 600;
+              font-size: 1.1rem;
+              margin-top: -50px;
+          }
+  
+          .author{
+              font-weight: normal;
+              font-size: 0.9rem;
+              margin-top: -5px;
+          }
+  
+  
+          .rating{
+              display: flex;
+              flex-direction: row;
+              width: 100%;
+              height: 7rem;
+              margin-top: 10px;
+              justify-content: center;
+              align-items: center;
+  
+              .circleRating {
+                  width: 60px;
+                  height: 60px;
+                  top: 3px;
+                  background-color: #fff;
+                  flex-shrink: 0;
+                  margin-right: 20px;
+          }
+  
+              span {
+                  font-weight: 500;
+                  font-size: 1.1rem;
+                  margin-top: -5px;
+              }
+          }
+  
+          >span {
+              font-weight: 500;
+              font-size: 1.1rem;
+              margin-top: -5px;
+          }
+  
+        
+          .btn {
+            opacity: 0;
+            position: absolute;
+            @include square(100%);
+            top: 0;
+            left: 0;
+            background-color: #0000006b;
+            @include flex;
+  
+            .donation {
+              display: inline-block;
+              widows: 30px;
+              height: auto;
+              border-radius: 10%;
+              padding: 10px;
+              border: none;
+              font-weight: 600;
+              background: var(--gradient);
+              cursor: pointer;
+              color: #000;
+              font-size: 1.1rem;
+              transition: all 0.3s;
+              &:hover {
+                rotate: 10deg;
+              }
+            }
+  
+              .share{
+              display: inline-block;
+              width: 90px;
+              border-radius: 10%;
+              padding: 10px;
+              border: none;
+              font-weight: 600;
+              background: var(--gradient);
+              cursor: pointer;
+              color: #000;
+              font-size: 1.1rem;
+              transition: all 0.3s;
+  
+              >span{
+                  margin: auto;
+                  margin-left: 10px;
+              }
+              &:hover {
+                rotate: 10deg;
+              } 
+              }
+          }
+      }
+
+
       }
       // $p: 0.5rem 1rem, $bg, $color
       article {

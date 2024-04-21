@@ -7,18 +7,23 @@ import Loader from './components/Loader';
 
 import Search from './pages/Search';
 
-import MyFundraisers from './pages/Profile/MyFundraisers';
-
 
 const Home = lazy(() => import("./pages/Home/Home"));
-const NewCampaign = lazy(() => import('./pages/Campaigns/CampaignCreate'));
-const Fundraisers = lazy(() => import('./pages/Campaigns/Fundraisers'));
-
-const CampaignDetails = lazy(() => import('./pages/Campaigns/CampaignDetails'));
-const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
-
-const Checkout = lazy(() => import('./pages/Checkout'));
 const Login = lazy(() => import('./pages/Login'));
+
+// Campaigns
+const NewCampaign = lazy(() => import('./pages/Campaigns/CampaignCreate'));
+const Fundraisers = lazy(() => import('./pages/Campaigns/Campaigns'));
+const CampaignDetails = lazy(() => import('./pages/Campaigns/CampaignDetails'));
+
+// Profiles
+const MyDonations =  lazy(() => import('./pages/Profile/MyDonations'));
+const MyFundraisers = lazy(() => import('./pages/Profile/MyFundraisers'));
+const Profile = lazy(() => import('./pages/Profile/Profile'));
+
+// Transaction
+const Checkout = lazy(() => import('./pages/Checkout'));
+
 
 // Admin Routes Components
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -47,13 +52,18 @@ const App = () => {
     <Routes>
         <Route path='/' element={<Home />}  />
         <Route path='/search' element={<Search />}  />
+
+
+
+        {/* Campaign Routes */}
+
+        <Route path='/campaigns' element={<Fundraisers />} />
         <Route path='/campaigns/create' element={<NewCampaign />} />
+        <Route path='campaigns/:id' element={<CampaignDetails />} />
 
-        <Route path='/fundraisers' element={<Fundraisers />} />
-
-        <Route path='campaign/:id' element={<CampaignDetails />} />
 
         {/* Profile Routes */}
+        <Route path='/profile' element={<Profile />} />
         <Route path='/profile/fundraisers' element={<MyFundraisers />} />
         <Route path='/profile/donations' element={<MyDonations />} />
 

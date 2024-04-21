@@ -5,10 +5,11 @@ import morgan from "morgan";
 import Stripe from 'stripe';
 import cors from 'cors';
 
-// importing routes
+
 import { connectDB } from './utils/features.js';
 import { errorMiddleware } from './middlewares/error.js';
 
+// importing routes
 import userRoute from './routes/user.js';
 import campaignRoute from './routes/campaigns.js';
 import donationRoute from './routes/donation.js';
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 })
 
 app.use("/uploads", express.static("uploads"));
+
 app.use(errorMiddleware);
 
 app.listen(port, ()=>{

@@ -6,6 +6,8 @@ const CampaignCreate = () => {
 
   const naviget = useNavigate();
 
+  const [step, setStep] = useState(1);
+
   const [shippingInfo, setShippingInfo] = useState({
       address: "",
       city: "",
@@ -18,9 +20,14 @@ const CampaignCreate = () => {
       setShippingInfo(prev => ({...prev, [e.target.name]:e.target.value}))
   }
 
+  const handleNext = () => {
+    setStep((step) => step + 1);
+  };
+
   return (
     <div className="campaign-create">
             <button className="back-btn" onClick={() => naviget('/')}><BiArrowBack /></button>
+            
             <form>
                 <h1>New Campaign</h1>
                 <input required type="text" placeholder="Your Name" name="name" value={shippingInfo.address} onChange={changeHandler} />

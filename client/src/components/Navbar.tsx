@@ -35,7 +35,7 @@ const Navbar = () => {
             <Link className="link" to={'/campaigns/create'}>Start a Fundraiser</Link>
           </div>
           
-          <Link className="link" to={'/fundraisers'}>Donate</Link>
+          <Link className="link" to={'/campaigns'}>Donate</Link>
           <Link className="link" to={'/'}>How it Works</Link>
           <Link to={'/search'} className="link">
               <HiOutlineSearch className="searchIcon" />

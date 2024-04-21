@@ -46,7 +46,7 @@ const schema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: [true, "Please enter Date of birth"],
+      required: [true, "Please Enter your Date of birth"],
     },
   },
   {
@@ -56,10 +56,10 @@ const schema = new mongoose.Schema(
 
 schema.virtual("age").get(function () {
   const today = new Date();
-  const dob = this.dob;
-  let age = today.getFullYear() - dob.getFullYear();
+  const dob = this.dob!;
+  let age:number = today.getFullYear() - dob.getFullYear();
 
-  if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())) {
+  if (today.getMonth() < dob.getMonth() || (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate())){
     age--;
   }
 
