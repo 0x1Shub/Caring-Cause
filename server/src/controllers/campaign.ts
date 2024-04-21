@@ -83,12 +83,12 @@ export const getSingleCampaign = TryCatch(async (req, res, next) => {
 
 export const newCampaign = TryCatch(
   async (req:Request<{}, {}, NewCampaignRequestBody>, res, next) => {
-      const {title, category, amountRaise, days} = req.body;
+      const {title, name, category, amountGoal, days} = req.body;
       const photo = req.file;
 
       if(!photo) return next(new ErrorHandler('Please Add Photo', 400));
 
-      if(!title || !category || !amountRaise || !days ){
+      if(!title || !category || !amountGoal || !days || !name ){
 
           rm(photo.path, () => {
               console.log("Deleted");
@@ -99,13 +99,14 @@ export const newCampaign = TryCatch(
 
       await Campaign.create({
           title, 
-          amountRaise, 
+          name,
+          amountGoal, 
           days, 
           category : category.toLocaleLowerCase(), 
-          photo: photo.path,
+          photo: photo?.path,
       });
 
-      await invalidateCache({campaign: true, campaignId: String(campaign._id)});
+      // await invalidateCache({campaign: true, campaignId: String(campaign._id)});
 
       return res.status(201).json({
           success: true,
@@ -117,7 +118,7 @@ export const newCampaign = TryCatch(
 
 export const updateCampaign = TryCatch(async (req, res, next) => {
     const { id } = req.params;
-    const { title, amountRaise, days, category } = req.body;
+    const { title, amountGoal, days, category } = req.body;
     const photo = req.file;
 
     const campaign = await Campaign.findById(id);
@@ -132,7 +133,7 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
     }
   
     if (title) campaign.title = title;
-    if (amountRaise) campaign.amountRaise = amountRaise;
+    if (amountGoal) campaign.amountGoal = amountGoal;
     if (days) campaign.days = days;
     if (category) campaign.category = category;
   
@@ -238,7 +239,7 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
 
 export const getAllCampaigns = TryCatch(async (req: Request<{}, {}, SearchRequestQuery>, res, next) => {
       
-    let { search, sort, category, amountRaise } = req.query;
+    let { search, sort, category, amountGoal } = req.query;
 
     const page = Number(req.query.page) || 1;
     const limit = Number(process.env.PRODUCT_PER_PAGE) || 8;
@@ -248,10 +249,10 @@ export const getAllCampaigns = TryCatch(async (req: Request<{}, {}, SearchReques
     search = typeof search === 'string' ? search : '';
     sort = typeof sort === 'string' ? sort : '';
     category = typeof category === 'string' ? category : '';
-    amountRaise = typeof amountRaise === 'string' ? amountRaise : '';
+    amountGoal = typeof amountGoal === 'number' ? amountGoal : '';
 
     // Convert amountRaise to number if it's a string and not empty
-    const amountRaiseNumber = amountRaise ? Number(amountRaise) : undefined;
+    const amountGoalNumber = amountGoal ? Number(amountGoal) : undefined;
 
     // Build the query object based on the provided search, category, and amountRaise
     const query: any = {};
@@ -261,9 +262,9 @@ export const getAllCampaigns = TryCatch(async (req: Request<{}, {}, SearchReques
             $options: 'i',
         };
     }
-    if (amountRaiseNumber) {
-        query.amountRaise = {
-            $lte: amountRaiseNumber,
+    if (amountGoalNumber) {
+        query.amountGoal = {
+            $lte: amountGoalNumber,
         };
     }
     if (category) {
@@ -272,7 +273,7 @@ export const getAllCampaigns = TryCatch(async (req: Request<{}, {}, SearchReques
 
     // Fetch campaigns based on the constructed query
     const campaigns = await Campaign.find(query)
-        .sort(sort ? { amountRaise: sort === 'asc' ? 1 : -1 } : {})
+        .sort(sort ? { amountGoal: sort === 'asc' ? 1 : -1 } : {})
         .limit(limit)
         .skip(skip);
 
@@ -324,3 +325,5 @@ export const getAllCampaigns = TryCatch(async (req: Request<{}, {}, SearchReques
 
 //   console.log({ success: true });
 // };
+
+// deleteRandomsProducts(38);

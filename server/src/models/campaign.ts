@@ -10,12 +10,12 @@ const schema = new mongoose.Schema(
       type: String,
       required: [true, "Please enter Photo"],
     },
-    amountRaise: {
+    amountGoal: {
       type: Number,
       required: [true, "Please enter amount you want to raise"],
     },
     days: {
-      type: Number,
+      type: Date,
       required: [true, "Please enter days"],
     },
     category: {

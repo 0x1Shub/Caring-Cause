@@ -99,6 +99,7 @@ export const getInventories = async ({
     discount?: number;
     total?: number;
   }
+  
   type FuncProps = {
     length: number;
     docArr: MyDocument[];

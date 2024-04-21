@@ -37,7 +37,7 @@ app.use(cors());
 
 // using routes
 app.use('/api/v1/user', userRoute);
-app.use('/api/v1/campaign', campaignRoute);
+app.use('/api/v1/campaigns', campaignRoute);
 app.use('/api/v1/donation', donationRoute); 
 app.use('/api/v1/transaction', transactionRoute);
 

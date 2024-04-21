@@ -11,9 +11,10 @@ export interface NewUserRequestBody {
 
 export interface NewCampaignRequestBody {
   title: string;
+  name: string;
   category: string;
-  amountRaise: number;
-  days: number;
+  amountGoal: number;
+  days: Date;
 }
 
 export type ControllerType = (

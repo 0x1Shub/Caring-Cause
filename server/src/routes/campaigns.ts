@@ -6,13 +6,13 @@ import { singleUpload } from '../middlewares/multer.js';
 const app = express.Router();
 
 // Create New Product - /api/v1/campaign/new
-app.post('/new', singleUpload, newCampaign);
+app.post('/create', singleUpload, newCampaign);
 
 // get latest campaigns
 app.get('/latest', getlatestCampaign);
 
 // Get all campaigns with filter
-app.get('/fundraisers', getAllCampaigns);
+app.get('/', getAllCampaigns);
 
 app.get('/categories', getAllCategories);
 
