@@ -8,7 +8,7 @@ const schema = new mongoose.Schema({
   },
   amount: {
     type: Number,
-    required: [true, "Please enter the Discount Amount"],
+    required: [true, "Please enter the Reward Amount"],
   },
 });
 

@@ -14,15 +14,18 @@ export const newDonation = TryCatch(async (req:Request<{}, {}, NewDonationReques
         return next(new ErrorHandler("Please Enter All details", 400)); 
     }
 
+    let temp: string[] = [];
+
     const donation = await Donation.create({
         donationInfo, userId, subtotal, total, tax, reward, donationCampaigns
     });
 
     await reduceGoalAmount(donationCampaigns);
 
-    if(donation.donationCampaigns !== undefined &&  donation.donationCampaigns !== null){
-        const temp = donation.donationCampaigns.map(i => String(i.campaignId))
+    if (Array.isArray(donation.donationCampaigns)){
+        temp = donation.donationCampaigns.map(i => String(i?.campaignId));
     }
+    
     // const campaignIds = donationCampaigns?.map((i) => String(i.campaignId)) ?? []; // Ensure campaignIds is an array
 
     await invalidateCache({campaign: true, donation: true, admin: true, userId: userId, campaignId: temp});

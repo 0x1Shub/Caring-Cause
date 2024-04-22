@@ -13,7 +13,7 @@ import { errorMiddleware } from './middlewares/error.js';
 import userRoute from './routes/user.js';
 import campaignRoute from './routes/campaigns.js';
 import donationRoute from './routes/donation.js';
-import transactionRoute from './routes/transaction.js';
+import paymentRoute from './routes/transaction.js';
 
 
 const app = express();
@@ -38,8 +38,8 @@ app.use(cors());
 // using routes
 app.use('/api/v1/user', userRoute);
 app.use('/api/v1/campaigns', campaignRoute);
-app.use('/api/v1/donation', donationRoute); 
-app.use('/api/v1/transaction', transactionRoute);
+app.use('/api/v1/donation', donationRoute);
+app.use('/api/v1/payment', paymentRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello Express');
