@@ -15,13 +15,16 @@ export const invalidateCache = ({campaign, donation, admin, userId, donationId, 
       const campaignKeys: string[] = [
         "latest-campaigns",
         "categories",
-        "all-campaigns",
+        "all-campaigns"
       ];
   
       if (typeof campaignId === "string") campaignKeys.push(`campaign-${campaignId}`);
   
-      if (typeof campaignId === "object")
+      if (typeof campaignId === "object"){
         campaignId.forEach((i) => campaignKeys.push(`campaign-${i}`));
+        console.log("LoL");
+      }
+        
   
       myCache.del(campaignKeys);
     }

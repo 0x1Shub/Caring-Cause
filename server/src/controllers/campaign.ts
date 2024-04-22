@@ -106,7 +106,7 @@ export const newCampaign = TryCatch(
           photo: photo?.path,
       });
 
-      // await invalidateCache({campaign: true, campaignId: String(campaign._id)});
+      await invalidateCache({campaign: true, admin: true });
 
       return res.status(201).json({
           success: true,
@@ -139,7 +139,7 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
   
     await campaign.save();
   
-    await invalidateCache({campaign: true});
+    await invalidateCache({campaign: true, campaignId: String(campaign._id) });
 
     return res.status(200).json({
       success: true,
@@ -149,7 +149,7 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
   
 
 
-  export const deleteCampaign = TryCatch(async (req, res, next) => {
+export const deleteCampaign = TryCatch(async (req, res, next) => {
     const campaign = await Campaign.findById(req.params.id);
     if (!campaign) return next(new ErrorHandler("Campaign Not Found", 404));
   
@@ -159,7 +159,7 @@ export const updateCampaign = TryCatch(async (req, res, next) => {
   
     await campaign.deleteOne();
 
-    await invalidateCache({campaign: true});
+    await invalidateCache({campaign: true, campaignId: String(campaign._id) });
 
   
     return res.status(200).json({

@@ -21,7 +21,7 @@ const schema = new mongoose.Schema(
             }
         },
 
-        user:{
+        userId:{
             type:String,
             reference: "User",
             require: true,

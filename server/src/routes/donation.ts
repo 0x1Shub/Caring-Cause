@@ -14,5 +14,4 @@ app.get('/all', adminOnly, allDonations);
 app.route('/:id').get(getSingleDonation).put(adminOnly, processDonation).delete(deleteDonation);
 
 
-
 export default app; 

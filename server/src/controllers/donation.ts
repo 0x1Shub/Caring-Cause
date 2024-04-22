@@ -10,17 +10,22 @@ export const newDonation = TryCatch(async (req:Request<{}, {}, NewDonationReques
 
     const {donationInfo, donationCampaigns, userId, subtotal, total, tax, reward} = req.body;
 
-    if(!donationInfo ||!donationCampaigns || !userId || !total ){
+    if(!donationInfo || !donationCampaigns || !userId || !total ){
         return next(new ErrorHandler("Please Enter All details", 400)); 
     }
 
-    await Donation.create({
-        donationInfo, donationCampaigns, userId, subtotal, total, tax, reward
+    const donation = await Donation.create({
+        donationInfo, userId, subtotal, total, tax, reward, donationCampaigns
     });
 
     await reduceGoalAmount(donationCampaigns);
 
-    const donation = await invalidateCache({campaign: true, donation: true, admin: true});
+    if(donation.donationCampaigns !== undefined &&  donation.donationCampaigns !== null){
+        const temp = donation.donationCampaigns.map(i => String(i.campaignId))
+    }
+    // const campaignIds = donationCampaigns?.map((i) => String(i.campaignId)) ?? []; // Ensure campaignIds is an array
+
+    await invalidateCache({campaign: true, donation: true, admin: true, userId: userId, campaignId: temp});
 
     return res.status(201).json({
         success: true,
@@ -57,7 +62,7 @@ export const allDonations = TryCatch(async (req:Request<{}, {}, NewDonationReque
 
     if(myCache.has(key)) donations = JSON.parse(myCache.get(key) as string);
     else{
-        donations = await Donation.find().populate("user", "name");
+        donations = await Donation.find().populate("userId", "name");
         myCache.set(key, JSON.stringify(donations));
     }
 
@@ -78,7 +83,7 @@ export const getSingleDonation = TryCatch(async (req, res, next) => {
 
     if(myCache.has(key)) donation = JSON.parse(myCache.get(key) as string);
     else{
-        donation = await Donation.findById(id).populate("user", "name");
+        donation = await Donation.findById(id).populate("userId", "name");
         if(!donation) return next(new ErrorHandler("Donation not found", 404))
         myCache.set(key, JSON.stringify(donation));
     }
@@ -99,19 +104,19 @@ export const processDonation = TryCatch(async (req, res, next) => {
 
     switch(donation.status) {
         case "Processing":
-            donation.status = "Received by Caring Cause";
+            donation.status = "Processing";
             break;
         case "Donated":
-            donation.status = "Donated to fundraiser, Thanks for your donation";
+            donation.status = "Donated";
             break;
         default:
-            donation.status = "Donated to fundraiser, Thanks for your donation";
+            donation.status = "Donated";
             break;
     }
 
     await donation.save();
 
-    await invalidateCache({campaign: false, donation: true, admin: true, userId: donation.user!, donationId: String(donation._id)});
+    invalidateCache({campaign: false, donation: true, admin: true, userId: donation.userId!, donationId: String(donation._id)});
 
     return res.status(200).json({
         success: true,
@@ -127,12 +132,13 @@ export const deleteDonation = TryCatch(async (req, res, next) => {
 
     if(!donation) return next(new ErrorHandler("Donation not found", 404));
 
-   await donation.deleteOne();
+    await donation.deleteOne();
 
-    await invalidateCache({campaign: false, donation: true, admin: true, userId: donation.user!, donationId: String(donation._id)});
+    await invalidateCache({campaign: false, donation: true, admin: true, userId: donation.userId!, donationId: String(donation._id)});
 
     return res.status(200).json({
         success: true,
         msg: "Donation deleted successfully",
     }) 
 })
+
