@@ -14,6 +14,7 @@ import userRoute from './routes/user.js';
 import campaignRoute from './routes/campaigns.js';
 import donationRoute from './routes/donation.js';
 import paymentRoute from './routes/transaction.js';
+import dashboardRoute from './routes/stats.js';
 
 
 const app = express();
@@ -40,6 +41,7 @@ app.use('/api/v1/user', userRoute);
 app.use('/api/v1/campaigns', campaignRoute);
 app.use('/api/v1/donation', donationRoute);
 app.use('/api/v1/payment', paymentRoute);
+app.use('/api/v1/dashboard', dashboardRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello Express');
