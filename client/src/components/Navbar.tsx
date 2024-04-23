@@ -1,13 +1,15 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
-import caringCauseLogo from '../assets/caringCause-logo.png';
-import { HiOutlineSearch} from "react-icons/hi";
-import { HiOutlineUserCircle } from "react-icons/hi2";
-import { useState } from "react";
-import { User } from "../types/types";
 import { signOut } from "firebase/auth";
-import { auth } from "../firebase";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineUserCircle } from "react-icons/hi2";
+import caringCauseLogo from '../assets/caringCause-logo.png';
+import { auth } from "../firebase";
+import { User } from "../types/types";
+
+// import { getCampaignSuggestions } from "../api"; // Function to call backend API
 
 
 interface PropsType {
@@ -18,6 +20,18 @@ interface PropsType {
 const Navbar = ({user} : PropsType) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // const handleSearch = async () => {
+  //   try {
+  //     const response = await getCampaignSuggestions(searchQuery); // Call backend API
+  //     // Handle the response, e.g., show suggestions in a dropdown
+  //     console.log(response);
+  //   } catch (error) {
+  //     toast.error("Failed to fetch search suggestions");
+  //   }
+  // };
+
 
     const logoutHandler = async () => {
         try{
@@ -49,10 +63,23 @@ const Navbar = ({user} : PropsType) => {
           </div>
           
           <Link className="link" to={'/campaigns'}>Donate</Link>
-          <Link className="link" to={'/'}>How it Works</Link>
+          <Link className="link" to={'/working'}>How it Works</Link>
+
+
           <Link to={'/search'} className="link">
               <HiOutlineSearch className="searchIcon" />
           </Link>
+
+          {/* <div className="link">
+            <input
+              type="text"
+              placeholder="Search campaigns"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} />
+              <button onClick={handleSearch}>
+                  <HiOutlineSearch />
+              </button>
+          </div> */}
 
 
           {/* Navbar Users */}

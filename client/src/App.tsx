@@ -2,17 +2,19 @@ import { Suspense, lazy, useEffect } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
-import Navbar from './components/Navbar';
-import Loader from './components/Loader';
-
-import Search from './pages/Search';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { userExits, userNotExits } from './redux/reducer/userReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
+
+import Navbar from './components/Navbar';
+import Loader from './components/Loader';
+import Search from './pages/Search';
+
 import ProtectedRoute from './components/ProtectedRoute';
+import Working from './pages/Home/Working';
 
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -74,8 +76,11 @@ const App = () => {
     
     <Suspense fallback={<Loader />}>
     <Routes>
+
+      {/* Home Routes */}
         <Route path='/' element={<Home />}  />
         <Route path='/search' element={<Search />}  />
+        <Route path='/working' element={<Working />} />
 
 
 

@@ -104,9 +104,13 @@
     // Campaign Card
 
     .main {
-        display: flex;
-        flex-direction: column;
-    }
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center;
+        align-items: center;
+      }
+
     .campaign-card {
         width: 15rem;
         height: 25rem;
@@ -131,7 +135,7 @@
         .title{
             font-weight: 600;
             font-size: 1.1rem;
-            margin-top: -50px;
+            margin-top: 5px;
         }
 
         .author{
@@ -225,10 +229,143 @@
     }
 
 
+    // categories
+
+    .category-component {
+        margin: auto;
+        height: auto;
+        margin-top: 100px;
+      }
+      
+      .category-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 120px;
+        justify-content: space-between;
+        margin-bottom: 100px;
+      }
+      
+      .category-grid a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        text-decoration: none;
+        color: #333;
+      
+        img {
+          width: 100%;
+          border-radius: 8px;
+        }
+      
+        span {
+          margin-top: 10px;
+          font-size: 16px;
+        }
+      
+        &:hover {
+          
+        }
+      }
+
+
+    // Working 
+    
+    .working{
+      margin-top: -100px;
+    }
+
+    .donation-steps {
+      border: 1px solid #ccc;
+      padding: 30px;
+      border-radius: 5px;
+
+      >h2 {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    
+    .step {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    
+    .step-number {
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    .step-description {
+      margin-left: 10px;
+    }
+    
+
 
     // Footer
 
     .footer {
-        margin-top: 500px;
-    }
+      background-color: var(--black3);
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 100px;
+      
+    
+      .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    
+      .footer-title {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+    
+      .social-icons {
+        font-size: 24px;
+        margin-bottom: 20px;
+    
+        a {
+          color: #fff;
+          margin: 0 10px;
+          transition: color 0.3s ease;
+    
+          &:hover {
+            color: #ccc;
+          }
+        }
+      }
+    
+      .terms-and-conditions {
+        font-size: 14px;
+        margin-bottom: 10px;
+    
+        a {
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.3s ease;
+    
+          &:hover {
+            color: #ccc;
+          }
+        }
+      }
+    
+      .rights {
+        font-size: 12px;
+      }
+    }    
 }

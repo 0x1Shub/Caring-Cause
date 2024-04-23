@@ -5,6 +5,8 @@ import { useLatestCampaignsQuery } from "../../redux/api/campaignAPI"
 import Footer from "./Footer"
 import HeroBanner from "./Herobanner"
 import Trending from "./Trending"
+import MoreCategories from "./MoreCategories"
+import Working from "./Working"
 
 
 
@@ -29,11 +31,13 @@ const Home = () => {
         {
           isLoading ? <Skeleton width="80vh" /> : 
           data?.campaigns.map((i) => (
-            <CampaignCard key={i._id} campaignId={i._id} name="Jon deo" title={i.title} amount={5000} goalAmount={i.amountGoal} days={Number(i.days)} handler={addToCartHandler} photo={i.photo} />
+            <CampaignCard key={i._id} campaignId={i._id} userName="Jon deo" title={i.title} amountRaise={5000} amountGoal={i.amountGoal} endDate={new Date("2024-05-01")} handler={addToCartHandler} photo={i.photo} />
           ))
         }
       </main>
 
+      <MoreCategories />
+      <Working />
       <Footer />
     </div>
   )

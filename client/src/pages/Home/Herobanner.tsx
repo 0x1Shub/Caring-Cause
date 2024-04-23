@@ -15,7 +15,7 @@ const HeroBanner = () => {
                 <h1>Welcome to Caring Cause</h1>
                 <p>Your platform for crowdfunding and making a difference!</p>
                 <div className='btn'>
-                    <Link className='text' to={'/create-campaign'}>Start a fundraiser</Link>
+                    <Link className='text' to={'/campaigns/create'}>Start a fundraiser</Link>
                 </div>
             </div>
         </div>
