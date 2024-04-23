@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 
@@ -6,6 +6,12 @@ import Navbar from './components/Navbar';
 import Loader from './components/Loader';
 
 import Search from './pages/Search';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
+import { userExits, userNotExits } from './redux/reducer/userReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import { getUser } from './redux/api/userAPI';
+import { UserReducerInitialState } from './types/reducer-types';
 
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -42,11 +48,29 @@ const TransactionManagement = lazy(() => import("./pages/admin/management/transa
 
 
 const App = () => {
+
+  const {user, loading} = useSelector((state: {userReducer : UserReducerInitialState}) => state.userReducer)
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user)=>{
+      if(user){
+        const data = await getUser(user.uid);
+        dispatch(userExits(data.user));
+      }
+      else{
+        dispatch(userNotExits());
+      }
+    });
+  }, [])
+  
+
   return (
-    <BrowserRouter>
+    loading ? <Loader /> : <BrowserRouter>
     
     {/* Navbar */}
-    <Navbar />
+    <Navbar user={user} />
     
     <Suspense fallback={<Loader />}>
     <Routes>
@@ -106,8 +130,8 @@ const App = () => {
 
       </Routes>
 
-    </Suspense>
-    <Toaster position='bottom-center' />
+      </Suspense>
+      <Toaster position='bottom-center' />
     </BrowserRouter>
   )
 }

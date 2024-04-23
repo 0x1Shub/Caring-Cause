@@ -4,11 +4,15 @@ import caringCauseLogo from '../assets/caringCause-logo.png';
 import { HiOutlineSearch} from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useState } from "react";
+import { User } from "../types/types";
 
-const user = {_id: "", role: ""};
+
+interface PropsType {
+  user: User | null
+}
 
 
-const Navbar = () => {
+const Navbar = ({user} : PropsType) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
