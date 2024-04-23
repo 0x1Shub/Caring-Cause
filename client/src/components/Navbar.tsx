@@ -5,7 +5,7 @@ import { HiOutlineSearch} from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useState } from "react";
 
-const user = {_id: "asas", role: "admin"};
+const user = {_id: "", role: ""};
 
 
 const Navbar = () => {

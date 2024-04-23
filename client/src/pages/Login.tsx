@@ -52,7 +52,7 @@ const Login = () => {
             // dispatch(userNotExist());
         }
         } catch (error) {
-        toast.error("Sign In Fail");
+            toast.error("Sign In Fail");
         }
     };
 
@@ -61,11 +61,28 @@ const Login = () => {
         <main>
             <h1 className='heading'>Login</h1>
 
-            <div>
+            {/* <div>
             <input type="text" placeholder='Email' onChange={(e) => e.target.value} />
             <input type="text" placeholder='OTP' onChange={(e) => e.target.value} />
+            </div> */}
+
+            <div>
+                <label>Gender</label>
+                <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
             </div>
-            
+
+            <div>
+            <label>Date of birth</label>
+            <input
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+            />
+            </div> 
 
             <div>
                 <p>Already Signed in once</p>

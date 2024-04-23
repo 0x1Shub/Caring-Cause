@@ -20,4 +20,4 @@ export const userAPI = createApi({
 
 
 
-export const {useLoginMutation} = userAPI;
+export const { useLoginMutation } = userAPI;
