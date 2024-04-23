@@ -5,6 +5,9 @@ import { HiOutlineSearch} from "react-icons/hi";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 import { useState } from "react";
 import { User } from "../types/types";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
+import { toast } from "react-hot-toast";
 
 
 interface PropsType {
@@ -16,8 +19,14 @@ const Navbar = ({user} : PropsType) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-    const logoutHandler = () => {
-        setIsOpen(false);
+    const logoutHandler = async () => {
+        try{
+          await signOut(auth);
+          toast.success("Sign Out Successfully");
+          setIsOpen(false);
+        }catch(error){
+          toast.error("Sign Out Failed")
+        }
     }
 
 

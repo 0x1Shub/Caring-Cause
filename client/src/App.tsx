@@ -12,6 +12,7 @@ import { userExits, userNotExits } from './redux/reducer/userReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import { getUser } from './redux/api/userAPI';
 import { UserReducerInitialState } from './types/reducer-types';
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -59,15 +60,14 @@ const App = () => {
         const data = await getUser(user.uid);
         dispatch(userExits(data.user));
       }
-      else{
-        dispatch(userNotExits());
-      }
+      else dispatch(userNotExits());
     });
   }, [])
   
 
   return (
-    loading ? <Loader /> : <BrowserRouter>
+    // loading ? <Loader /> : 
+    <BrowserRouter>
     
     {/* Navbar */}
     <Navbar user={user} />
@@ -80,10 +80,13 @@ const App = () => {
 
 
         {/* Campaign Routes */}
+        <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
 
-        <Route path='/campaigns' element={<Fundraisers />} />
-        <Route path='/campaigns/create' element={<NewCampaign />} />
-        <Route path='campaigns/:id' element={<CampaignDetails />} />
+          <Route path='/campaigns' element={<Fundraisers />} />
+          <Route path='/campaigns/create' element={<NewCampaign />} />
+          <Route path='campaigns/:id' element={<CampaignDetails />} />
+
+        </Route>
 
 
         {/* Profile Routes */}
@@ -92,10 +95,12 @@ const App = () => {
         <Route path='/profile/donations' element={<MyDonations />} />
 
         {/* Not Loged in route */}
-        <Route path='/login' element={<Login />} />
+        <Route path='/login' element={<ProtectedRoute isAuthenticated={user ? false : true}>
+          <Login />
+        </ProtectedRoute>} />
 
         {/* Login User Route */}
-        <Route>
+        <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
           <Route path='/checkout' element={<Checkout />} />
         </Route>
 
@@ -105,7 +110,7 @@ const App = () => {
         {/* Admin Routes */}
 
         <Route 
-          // element={<ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />} 
+          element={<ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={user?.role==="admin" ? true : false} />} 
         >
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/campaign" element={<Campaigns />} />
