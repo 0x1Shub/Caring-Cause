@@ -1,10 +1,10 @@
 import {
     Bar,
+    Campaign,
     CartItem,
     Line,
     Order,
     Pie,
-    Product,
     ShippingInfo,
     Stats,
     User,
@@ -33,28 +33,28 @@ import {
     user: User;
   };
   
-  export type AllProductsResponse = {
+  export type AllCampaignsResponse = {
     success: boolean;
-    products: Product[];
+    campaigns: Campaign[];
   };
   export type CategoriesResponse = {
     success: boolean;
     categories: string[];
   };
   
-  export type SearchProductsResponse = AllProductsResponse & {
+  export type SearchCampaignsResponse = AllCampaignsResponse & {
     totalPage: number;
   };
-  export type SearchProductsRequest = {
-    price: number;
+  export type SearchCampaignsRequest = {
+    amountGoal: number;
     page: number;
     category: string;
     search: string;
     sort: string;
   };
-  export type ProductResponse = {
+  export type CampaignResponse = {
     success: boolean;
-    product: Product;
+    campaign: Campaign;
   };
   
   export type AllOrdersResponse = {
@@ -86,18 +86,18 @@ import {
     charts: Line;
   };
   
-  export type NewProductRequest = {
+  export type NewCampaignRequest = {
     id: string;
     formData: FormData;
   };
-  export type UpdateProductRequest = {
+  export type UpdateCampaignRequest = {
     userId: string;
-    productId: string;
+    campaignId: string;
     formData: FormData;
   };
-  export type DeleteProductRequest = {
+  export type DeleteCampaignRequest = {
     userId: string;
-    productId: string;
+    campaignId: string;
   };
   
   export type NewOrderRequest = {

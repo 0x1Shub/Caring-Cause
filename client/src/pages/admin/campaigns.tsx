@@ -1,9 +1,16 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { FaPlus } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
+import { useAllCampaignsQuery } from "../../redux/api/campaignAPI";
+import { server } from "../../redux/store";
+import { CustomError } from "../../types/api-types";
+import { UserReducerInitialState } from "../../types/reducer-types";
+import { Skeleton } from "../../components/Loader";
 
 interface DataType {
   photo: ReactElement;
@@ -41,33 +48,35 @@ const columns: Column<DataType>[] = [
   },
 ];
 
-const img =
-  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
-
-const img2 = "https://m.media-amazon.com/images/I/514T0SvwkHL._SL1500_.jpg";
-
-const arr: Array<DataType> = [
-  {
-    photo: <img src={img} alt="Shoes" />,
-    name: "Fund for Education",
-    amountGoal: 25000,
-    amountRaised: 3000,
-    timeBound: 30,
-    action: <Link to="/admin/campaign/sajknaskd">Manage</Link>,
-  },
-
-  {
-    photo: <img src={img2} alt="Shoes" />,
-    name: "Macbook",
-    amountGoal: 25000,
-    amountRaised: 3000,
-    timeBound: 30,
-    action: <Link to="/admin/campaign/sdaskdnkasjdn">Manage</Link>,
-  },
-];
-
 const Campaigns = () => {
-  const [rows, setRows] = useState<DataType[]>(arr);
+
+  const { user } = useSelector((state: {userReducer: UserReducerInitialState}) => state.userReducer);
+
+  const {isLoading, isError, error, data} = useAllCampaignsQuery(user?._id!);
+
+  const [rows, setRows] = useState<DataType[]>([]);
+
+  if(isError){
+    const err = error as CustomError
+    toast.error(err.data.message);
+  } 
+
+  useEffect(() => {
+    if(data) 
+      setRows(
+      data.campaigns.map((i) => ({
+        photo: <img src={`${server}/${i.photo}`} />,
+        name: i.title,
+        amountGoal: i.amountGoal,
+        amountRaised: 5000,
+        timeBound: Number(i.days),
+        action: <Link to={`/admin/campaign/${i._id}`}>Manage</Link>
+    }))
+    );
+  }, [data]);
+  
+
+  
 
   const Table = TableHOC<DataType>(
     columns,
@@ -80,7 +89,7 @@ const Campaigns = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main>{Table}</main>
+      <main>{isLoading ? <Skeleton length={10} /> : Table}</main>
       <Link to="/admin/campaign/new" className="create-product-btn">
         <FaPlus />
       </Link>

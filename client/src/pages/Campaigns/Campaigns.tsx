@@ -1,7 +1,12 @@
 import { useState } from "react"
 import CampaignCard from "../../components/CampaignCard";
+import { useCategoriesQuery, useSearchCampaignsQuery } from "../../redux/api/campaignAPI";
+import { CustomError } from "../../types/api-types";
+import { toast } from "react-hot-toast";
 
 const Fundraisers = () => {
+
+    const { data: categoriesResponse, isLoading:loadingCategories, isError, error  } = useCategoriesQuery("");
 
     const addToCartHandler = () => {
 
@@ -9,12 +14,24 @@ const Fundraisers = () => {
   
     const [search, setSearch] = useState("");
     const [sort, setSort] = useState("");
-    const [maxPrice, setMaxPrice] = useState(100000); 
+    const [maxGoalAmount, setMaxGoalAmount] = useState(100000); 
     const [category, setCategory] = useState("");
     const [page, setPage] = useState(1);
 
+    const { isLoading: campaignLoading, data: searchedData } = useSearchCampaignsQuery({
+      search, sort, category, page, amountGoal: maxGoalAmount
+    })
+
+    console.log(searchedData);
+
     const isPrevPage = page > 1;
     const isNextPage = page < 4;
+
+    if(isError){
+      const err = error as CustomError
+      toast.error(err.data.message);
+    } 
+  
 
 
   return (
@@ -31,18 +48,23 @@ const Fundraisers = () => {
         </div>
 
         <div>
-          <h4>Max Price : {maxPrice || ""}</h4>
-          <input type="range" min={100} max={100000} value={maxPrice} onChange={(e) => setMaxPrice(Number(e.target.value))} />
+          <h4>Max Price : {maxGoalAmount || ""}</h4>
+          <input type="range" min={100} max={100000} value={maxGoalAmount} onChange={(e) => setMaxGoalAmount(Number(e.target.value))} />
         </div>
 
         <div>
           <h4>Category</h4>
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            <option value="">All</option>
-            <option value="asc">Education</option>
-            <option value="dsc">Emergencies</option>
-            <option value="dsc">Health-Care</option>
-            <option value="dsc">Memorials</option>
+            <option value="">ALL</option>
+            {/* <option value="asc">Education</option> */}
+            {/* <option value="dsc">Emergencies</option> */}
+            {/* <option value="dsc">Health-Care</option> */}
+            {/* <option value="dsc">Memorials</option> */}
+            {
+              !loadingCategories && categoriesResponse?.categories.map((i) => {
+                <option key={i} value={i}>{i.toUpperCase()}</option>
+              })
+            }
           </select>
         </div>
 

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CircleRating from "./CircleRating";
+import { server } from "../redux/store";
 
 type CampaignProps = {
     campaignId: string;
@@ -7,7 +8,7 @@ type CampaignProps = {
     title: string;
     name:string;
     amount: number;
-    goalAmount: number; 
+    goalAmount: number;
     days: number;
     handler: () => void;
 };
@@ -15,7 +16,7 @@ type CampaignProps = {
 const CampaignCard = ({campaignId, amount, name, title, photo, days, goalAmount, handler} : CampaignProps) => {
   return (
     <div className="campaign-card">
-        <img src={photo} alt={title} />
+        <img src={`${server}/${photo}`} alt={title} />
         <p className="title">{title}</p>
         <p className="author">Created by: {name}</p>
 

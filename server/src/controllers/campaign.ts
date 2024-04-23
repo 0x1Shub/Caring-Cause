@@ -22,6 +22,7 @@ export const getlatestCampaign = TryCatch(async (req, res, next) => {
     myCache.set('latest-campaign', JSON.stringify(campaigns));
   }
   
+  
     return res.status(200).json({
       success: true,
       campaigns,

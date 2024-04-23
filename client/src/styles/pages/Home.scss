@@ -103,6 +103,10 @@
 
     // Campaign Card
 
+    .main {
+        display: flex;
+        flex-direction: column;
+    }
     .campaign-card {
         width: 15rem;
         height: 25rem;

@@ -1,3 +1,4 @@
+import { Campaign } from './../../../server/src/models/campaign';
 export type User = {
     name: string;
     email: string;
@@ -8,10 +9,10 @@ export type User = {
     _id: string;
   };
   
-  export type Product = {
-    name: string;
-    price: number;
-    stock: number;
+  export type Campaign = {
+    title: string;
+    amountGoal: number;
+    days: Date;
     category: string;
     photo: string;
     _id: string;
