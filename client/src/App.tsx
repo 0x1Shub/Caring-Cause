@@ -95,9 +95,12 @@ const App = () => {
 
 
         {/* Profile Routes */}
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/profile/fundraisers' element={<MyFundraisers />} />
-        <Route path='/profile/donations' element={<MyDonations />} />
+        <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/fundraisers' element={<MyFundraisers />} />
+          <Route path='/profile/donations' element={<MyDonations />} />
+        </Route>
+       
 
         {/* Not Loged in route */}
         <Route path='/login' element={<ProtectedRoute isAuthenticated={user ? false : true}>

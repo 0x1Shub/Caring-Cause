@@ -20,28 +20,32 @@ interface PropsType {
 const Navbar = ({user} : PropsType) => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  // const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // const handleSearch = async () => {
-  //   try {
-  //     const response = await getCampaignSuggestions(searchQuery); // Call backend API
-  //     // Handle the response, e.g., show suggestions in a dropdown
-  //     console.log(response);
-  //   } catch (error) {
-  //     toast.error("Failed to fetch search suggestions");
-  //   }
-  // };
-
-
-    const logoutHandler = async () => {
-        try{
-          await signOut(auth);
-          toast.success("Sign Out Successfully");
-          setIsOpen(false);
-        }catch(error){
-          toast.error("Sign Out Failed")
-        }
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(`/api/campaigns?search=${encodeURIComponent(searchQuery)}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      } else {
+        throw new Error("Failed to fetch search results");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch search results");
     }
+  };
+
+   const logoutHandler = async () => {
+    try {
+      await signOut(auth);
+      toast.success("Sign Out Successfully");
+      setIsOpen(false);
+    } catch (error) {
+      toast.error("Sign Out Fail");
+    }
+  };
 
 
   return (
@@ -70,17 +74,19 @@ const Navbar = ({user} : PropsType) => {
               <HiOutlineSearch className="searchIcon" />
           </Link>
 
-          {/* <div className="link">
-            <input
-              type="text"
-              placeholder="Search campaigns"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} />
-              <button onClick={handleSearch}>
-                  <HiOutlineSearch />
-              </button>
-          </div> */}
-
+            {/* <div className="link search">
+                      <HiOutlineSearch onClick={() => setIsOpen(true)} />
+                      {isOpen && (
+                        <div className="search-input">
+                          <input
+                            type="text"
+                            placeholder="Search campaigns"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)} />
+                          <button onClick={handleSearch}>Search</button>
+                        </div>
+                      )}
+            </div> */}
 
           {/* Navbar Users */}
 

@@ -10,10 +10,12 @@ export type User = {
   };
   
   export type Campaign = {
+    userName: string;
     title: string;
     amountGoal: number;
-    days: Date;
-    category: string;
+    endDate: Date;
+    categories: string;
+    amountRaise: number;
     photo: string;
     _id: string;
   };

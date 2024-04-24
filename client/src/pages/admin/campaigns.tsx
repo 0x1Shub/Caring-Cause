@@ -17,7 +17,7 @@ interface DataType {
   name: string;
   amountGoal: number;
   amountRaised: number;
-  timeBound: number,
+  endDate: Date,
   action: ReactElement;
 }
 
@@ -39,8 +39,8 @@ const columns: Column<DataType>[] = [
     accessor: "amountRaised",
   },
   {
-    Header: "Time",
-    accessor: "timeBound",
+    Header: "End Date",
+    accessor: "endDate",
   },
   {
     Header: "Action",
@@ -68,8 +68,8 @@ const Campaigns = () => {
         photo: <img src={`${server}/${i.photo}`} />,
         name: i.title,
         amountGoal: i.amountGoal,
-        amountRaised: 5000,
-        timeBound: Number(i.days),
+        amountRaised: i.amountRaise,
+        endDate: i.endDate,
         action: <Link to={`/admin/campaign/${i._id}`}>Manage</Link>
     }))
     );
@@ -89,9 +89,9 @@ const Campaigns = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main>{isLoading ? <Skeleton length={10} /> : Table}</main>
-      <Link to="/admin/campaign/new" className="create-product-btn">
-        <FaPlus />
+        <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+        <Link to="/admin/campaign/new" className="create-product-btn">
+        <FaPlus className="add" />
       </Link>
     </div>
   );

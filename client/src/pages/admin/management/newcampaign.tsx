@@ -1,13 +1,26 @@
-import { ChangeEvent, useState } from "react";
+import {useSelector} from 'react-redux';
+import { ChangeEvent, FormEvent, useState } from "react";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
+import { UserReducerInitialState } from '../../../types/reducer-types';
+import { useNewCampaignMutation } from '../../../redux/api/campaignAPI';
+import { useNavigate } from 'react-router-dom';
+import { responseToast } from "../../../utils/features";
 
 const NewCampaign = () => {
+
+  const {user} = useSelector((state: {userReducer : UserReducerInitialState}) => state.userReducer)
+
+
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [amountGoal, setAmountGoal] = useState<number>(1000);
   const [amountRaised, setAmountRaised] = useState<number>(1);
   const [photoPrev, setPhotoPrev] = useState<string>("");
   const [photo, setPhoto] = useState<File>();
+
+  const [newCampaign] = useNewCampaignMutation();
+  const navigate = useNavigate();
+
 
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | undefined = e.target.files?.[0];
@@ -25,12 +38,30 @@ const NewCampaign = () => {
     }
   };
 
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!name || !amountGoal || amountRaised < 0 || !category || !photo) return;
+
+    const formData = new FormData();
+
+    formData.set("name", name);
+    formData.set("amountGoal", amountGoal.toString());
+    formData.set("stock", amountRaised.toString());
+    formData.set("amountRaised", photo);
+    formData.set("category", category);
+
+    const res = await newCampaign({ id: user?._id!, formData });
+
+    responseToast(res, navigate, "/admin/campaign");
+  };
+
   return (
     <div className="admin-container">
       <AdminSidebar />
       <main className="product-management">
         <article>
-          <form>
+          <form onSubmit={submitHandler}>
             <h2>New Product</h2>
             <div>
               <label>Name</label>

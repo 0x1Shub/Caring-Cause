@@ -158,6 +158,13 @@ $color3: rgb(0, 104, 136);
       &::-webkit-scrollbar {
         display: none;
       }
+
+      .add {
+        position: absolute; 
+        bottom: 20px; 
+        right: 20px; 
+        z-index: 10;
+      }
   
       > div {
         margin: 2rem 1rem;

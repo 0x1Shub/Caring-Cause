@@ -3,8 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 // Define the schema for the campaign
 const campaignSchema = new mongoose.Schema(
   {
-    userInfo: {
-      userName: {
+    userName: {
         type: String,
         required: [true, "Please enter user name"],
       },
@@ -24,8 +23,6 @@ const campaignSchema = new mongoose.Schema(
         type: Date,
         required: [true, "Please enter date of birth"],
       },
-    },
-    campaignInfo: {
       title: {
         type: String,
         required: [true, "Please enter campaign title"],
@@ -46,15 +43,12 @@ const campaignSchema = new mongoose.Schema(
         type: String,
         required: [true, "Please upload campaign photo"],
       },
-    },
-    description: {
       description: {
         type: String,
         required: [true, "Please enter campaign description"],
       },
-      documents: [String], // Assuming the file paths will be stored here
-    },
-  },
+      documents: [String], 
+    }
   {
     timestamps: true,
   }

@@ -31,7 +31,7 @@ const Home = () => {
         {
           isLoading ? <Skeleton width="80vh" /> : 
           data?.campaigns.map((i) => (
-            <CampaignCard key={i._id} campaignId={i._id} userName="Jon deo" title={i.title} amountRaise={5000} amountGoal={i.amountGoal} endDate={new Date("2024-05-01")} handler={addToCartHandler} photo={i.photo} />
+            <CampaignCard key={i._id} campaignId={i._id} userName={i.userName} title={i.title} amountRaise={5000} amountGoal={i.amountGoal} endDate={new Date("2024-05-01")} handler={addToCartHandler} photo={i.photo} />
           ))
         }
       </main>

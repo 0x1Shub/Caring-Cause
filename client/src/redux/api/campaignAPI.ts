@@ -14,7 +14,7 @@ export const campaignAPI = createApi({
       providesTags: ["campaign"],
     }),
     allCampaigns: builder.query<AllCampaignsResponse, string>({
-      query: (id) => `admin-campaigns?id=${id}`,
+      query: (id) => `?id=${id}`,
       providesTags: ["campaign"],
     }),
     categories: builder.query<CategoriesResponse, string>({
@@ -22,12 +22,11 @@ export const campaignAPI = createApi({
       providesTags: ["campaign"],
     }),
 
-
     searchCampaigns: builder.query<SearchCampaignsResponse, SearchCampaignsRequest>({
       query: ({ amountGoal, search, sort, category, page }) => {
-        let base = `all?search=${search}&page=${page}`;
+        let base = `?search=${search}&page=${page}`;
 
-        if (amountGoal) base += `&price=${amountGoal}`;
+        if (amountGoal) base += `&amountGoal=${amountGoal}`;
         if (sort) base += `&sort=${sort}`;
         if (category) base += `&category=${category}`;
 
@@ -43,7 +42,7 @@ export const campaignAPI = createApi({
 
     newCampaign: builder.mutation<MessageResponse, NewCampaignRequest>({
       query: ({ formData, id }) => ({
-        url: `new?id=${id}`,
+        url: `create?id=${id}`,
         method: "POST",
         body: formData,
       }),
