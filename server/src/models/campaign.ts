@@ -1,27 +1,58 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-const schema = new mongoose.Schema(
+// Define the schema for the campaign
+const campaignSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: [true, "Please enter title"],
+    userInfo: {
+      userName: {
+        type: String,
+        required: [true, "Please enter user name"],
+      },
+      education: {
+        type: String,
+        required: [true, "Please enter education"],
+      },
+      employment: {
+        type: String,
+        required: [true, "Please enter employment"],
+      },
+      mobile: {
+        type: String,
+        required: [true, "Please enter mobile number"],
+      },
+      dob: {
+        type: Date,
+        required: [true, "Please enter date of birth"],
+      },
     },
-    photo: {
-      type: String,
-      required: [true, "Please enter Photo"],
+    campaignInfo: {
+      title: {
+        type: String,
+        required: [true, "Please enter campaign title"],
+      },
+      categories: {
+        type: String,
+        required: [true, "Please select campaign categories"],
+      },
+      amountGoal: {
+        type: Number,
+        required: [true, "Please enter campaign goal amount"],
+      },
+      endDate: {
+        type: Date,
+        required: [true, "Please enter campaign end date"],
+      },
+      photo: {
+        type: String,
+        required: [true, "Please upload campaign photo"],
+      },
     },
-    amountGoal: {
-      type: Number,
-      required: [true, "Please enter amount you want to raise"],
-    },
-    days: {
-      type: Date,
-      required: [true, "Please enter days"],
-    },
-    category: {
-      type: String, 
-      required: [true, "Please enter Category"],
-      trim: true,
+    description: {
+      description: {
+        type: String,
+        required: [true, "Please enter campaign description"],
+      },
+      documents: [String], // Assuming the file paths will be stored here
     },
   },
   {
@@ -29,4 +60,5 @@ const schema = new mongoose.Schema(
   }
 );
 
-export const Campaign = mongoose.model("Campaign", schema);
+// Create and export the Campaign model
+export const Campaign = mongoose.model("Campaign", campaignSchema);

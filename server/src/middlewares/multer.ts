@@ -13,4 +13,14 @@ const storage = multer.diskStorage({
     }
 });
 
-export const singleUpload = multer({storage}).single("photo");
+const fileFilter = (req, file, callback) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    callback(null, true);
+  } else {
+    callback(new Error('Invalid file type. Only JPEG and PNG files are allowed.'), false);
+  }
+};
+
+
+
+export const singleUpload = multer({storage, fileFilter}).single("photo");

@@ -8,6 +8,7 @@ interface CampaignInformationProps {
         categories: string;
         amountGoal: string;
         endDate: string;
+        photo: string;
     };
     onChange: (data: any) => void;
     onNext: () => void;
@@ -19,6 +20,12 @@ const CampaignInformation = ({ formData, onChange, onNext }: CampaignInformation
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         onChange({ ...formData, [e.target.name]: e.target.value });
     };
+
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+          onChange({ documents: e.target.files });
+        }
+      };
 
     return (
         <div className="campaign-create">
@@ -39,6 +46,7 @@ const CampaignInformation = ({ formData, onChange, onNext }: CampaignInformation
                 </select>
                 <input required type="number" placeholder="Goal amount" name="amountGoal" value={formData.amountGoal} onChange={handleChange} />
                 <input required type="date" placeholder="End Date" name="endDate" value={formData.endDate} onChange={handleChange} />
+                <input type="file" name="photo" accept=".pdf,.doc,.docx" onChange={handleFileChange} multiple />
                 <button type="submit">Next</button>
             </form>
         </div>

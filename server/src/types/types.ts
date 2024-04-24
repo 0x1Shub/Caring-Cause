@@ -9,12 +9,31 @@ export interface NewUserRequestBody {
   dob: Date;
 }
 
-export interface NewCampaignRequestBody {
+export type UserInfoType = {
+  userName: string;
+  education: string;
+  employment: string;
+  mobile: number;
+  dob: Date;
+};
+
+export type CampaignInfoType = {
   title: string;
-  name: string;
-  category: string;
+  categories: string;
   amountGoal: number;
-  days: Date;
+  endDate: Date;
+  photo?: String;
+};
+
+export type DescriptionInfoType = {
+  description: string;
+  documents?: string[];
+};
+
+export interface NewCampaignRequestBody {
+  userInfo: UserInfoType;
+  campaignInfo: CampaignInfoType;
+  description: DescriptionInfoType;
 }
 
 export type ControllerType = (

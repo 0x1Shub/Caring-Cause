@@ -18,6 +18,7 @@ const CreateCampaignPage = () => {
       categories: "",
       amountGoal: "",
       endDate: "",
+      photo: "",
     },
     description: {
       description: "",
