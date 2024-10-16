@@ -31,9 +31,18 @@ export type DescriptionInfoType = {
 };
 
 export interface NewCampaignRequestBody {
-  userInfo: UserInfoType;
-  campaignInfo: CampaignInfoType;
-  description: DescriptionInfoType;
+    userName: string;
+    education: string;
+    employment: string;
+    mobile: string;
+    dob: string;
+    title: string;
+    categories: string;
+    amountGoal: string;
+    endDate: string;
+    photo: string;
+    description: string;
+    documents: FileList | null;
 }
 
 export type ControllerType = (
@@ -71,7 +80,7 @@ export type InvalidateCacheProps = {
 };
 
 export type DonationCampaignType = {
-  name: string;
+  title: string;
   photo: string;
   amount: number;
   campaignId: string;
@@ -79,18 +88,15 @@ export type DonationCampaignType = {
 };
 
 export type DonationInfoType = {
-  name: string;
+  userName: string;
   email: string;
   phone: number;
-  amount: number;
+  amountGoal: number;
 };
 
 export interface NewDonationRequestBody {
   donationInfo: DonationInfoType;
   userId: string;
-  subtotal: number;
-  tax: number;
-  reward: number;
   total: number;
   donationCampaigns: DonationCampaignType[];
 }

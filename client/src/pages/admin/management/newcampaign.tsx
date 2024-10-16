@@ -1,30 +1,25 @@
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ChangeEvent, FormEvent, useState } from "react";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
-import { UserReducerInitialState } from '../../../types/reducer-types';
 import { useNewCampaignMutation } from '../../../redux/api/campaignAPI';
 import { useNavigate } from 'react-router-dom';
 import { responseToast } from "../../../utils/features";
+import { UserReducerInitialState } from '../../../types/reducer-types';
 
 const NewCampaign = () => {
-
-  const {user} = useSelector((state: {userReducer : UserReducerInitialState}) => state.userReducer)
-
-
+  const { user } = useSelector((state: { userReducer: UserReducerInitialState }) => state.userReducer);
   const [name, setName] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [amountGoal, setAmountGoal] = useState<number>(1000);
-  const [amountRaised, setAmountRaised] = useState<number>(1);
+  const [amountRaised, setAmountRaised] = useState<number>(0);
   const [photoPrev, setPhotoPrev] = useState<string>("");
   const [photo, setPhoto] = useState<File>();
 
   const [newCampaign] = useNewCampaignMutation();
   const navigate = useNavigate();
 
-
   const changeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const file: File | undefined = e.target.files?.[0];
-
     const reader: FileReader = new FileReader();
 
     if (file) {
@@ -41,19 +36,26 @@ const NewCampaign = () => {
   const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!name || !amountGoal || amountRaised < 0 || !category || !photo) return;
+    if (!photo) {
+      console.error("Please fill in all required fields.");
+      return;
+    }
 
     const formData = new FormData();
 
     formData.set("name", name);
     formData.set("amountGoal", amountGoal.toString());
-    formData.set("stock", amountRaised.toString());
-    formData.set("amountRaised", photo);
+    formData.set("raisedAmount", amountRaised.toString());
     formData.set("category", category);
+    formData.append("photo", photo);
 
-    const res = await newCampaign({ id: user?._id!, formData });
-
-    responseToast(res, navigate, "/admin/campaign");
+    try {
+      const res = await newCampaign({ id: user?._id!, formData });
+      responseToast(res, navigate, "/admin/campaign");
+    } catch (error) {
+      console.error("Error creating campaign:", error);
+      // Handle error
+    }
   };
 
   return (
@@ -82,16 +84,6 @@ const NewCampaign = () => {
               />
             </div>
             <div>
-              <label>Raised Amount</label>
-              <input
-                type="number"
-                placeholder="AmountRaised"
-                value={amountRaised}
-                onChange={(e) => setAmountRaised(Number(e.target.value))}
-              />
-            </div>
-
-            <div>
               <label>Category</label>
               <input
                 type="text"
@@ -100,12 +92,10 @@ const NewCampaign = () => {
                 onChange={(e) => setCategory(e.target.value)}
               />
             </div>
-
             <div>
               <label>Photo</label>
               <input type="file" onChange={changeImageHandler} />
             </div>
-
             {photoPrev && <img src={photoPrev} alt="New Image" />}
             <button type="submit">Create</button>
           </form>

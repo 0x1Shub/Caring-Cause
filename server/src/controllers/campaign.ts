@@ -11,68 +11,46 @@ import { invalidateCache } from '../utils/features.js';
 // import fetch from 'node-fetch';
 
 
-const encodeFileToBase64 = (filePath: string) => {
-  return new Promise<string>((resolve, reject) => {
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        const base64String = data.toString('base64');
-        resolve(base64String);
-      }
-    });
-  });
-};
-
-
 // New Campaign
 
 export const newCampaign = TryCatch(
   async (req: Request<{}, {}, NewCampaignRequestBody>, res, next) => {
-    const { userInfo, campaignInfo, description } = req.body;
-
-    // Ensure that req.file and req.files are not undefined
+    const {userName, education, employment, title, amountGoal, endDate, categories, mobile, dob, description } = req.body;
     const photo = req.file;
-    const documents = req.files;
 
-    let photoBase64;
+    if (!photo) return next(new ErrorHandler("Please add Photo", 400));
 
-    if (photo) {
-       photoBase64 = await encodeFileToBase64(photo.path);
-    }
-
-    let encodedDocuments;
-    if (documents && Array.isArray(documents)) { 
-      encodedDocuments = await Promise.all(
-        documents.map(async (file: Express.Multer.File) => {
-          return {
-            fileName: file.originalname,
-            base64Data: await encodeFileToBase64(file.path),
-          };
-        })
-      );
-    }
-
-    try {
-      const campaign = await Campaign.create({
-        userInfo,
-        campaignInfo: { ...campaignInfo, photo: photoBase64 },
-        description: { ...description, documents: encodedDocuments }
+    if (!userName || !education || !employment || !title || !amountGoal || !endDate || !categories) {
+      rm(photo.path, () => {
+        console.log("Deleted");
       });
 
-      await invalidateCache({ campaign: true, admin: true });
-
-      return res.status(201).json({
-        success: true,
-        message: 'Campaign created successfully',
-        campaign,
-      });
-    } catch (error) {
-      console.error('Error creating campaign:', error);
-      return res.status(500).json({ success: false, message: 'Internal server error.' });
+      return next(new ErrorHandler("Please enter All Fields", 400));
     }
+
+    await Campaign.create({
+      userName,
+      education,
+      employment, 
+      mobile,
+      title,
+      dob,
+      amountGoal,
+      description,
+      endDate,
+      category: categories.toLowerCase(),
+      photo: photo.path,
+    });
+
+    invalidateCache({ campaign: true, admin: true });
+
+    return res.status(201).json({
+      success: true,
+      message: "Product Created Successfully",
+    });
   }
 );
+
 
 // Latest
 

@@ -53,7 +53,7 @@ const CampaignCard = ({campaignId, amountRaise, userName, title, photo, endDate,
         <span>Remaining time: {remainingDays} days</span>
 
         <div className="btn">
-            <Link className="donation" to={`campaigns/${campaignId}`} onClick={() => handler()}>
+            <Link className="donation" to={`/donation`} onClick={() => handler()}>
                 <span>Donate</span>
             </Link>
             <Link className="share" to={'/'} onClick={handleShareAndCopy}>

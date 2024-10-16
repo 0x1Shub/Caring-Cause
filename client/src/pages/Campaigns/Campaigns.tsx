@@ -63,7 +63,7 @@ const Fundraisers = () => {
           <select value={category} onChange={(e) => setCategory(e.target.value)}>
           <option value="">ALL</option>
             {!loadingCategories &&
-              categoriesResponse?.categories.map((category) => ( // Added arrow function with return
+              categoriesResponse?.categories.map((category) => (
                 <option key={category} value={category}>
                   {category.toUpperCase()}
                 </option>

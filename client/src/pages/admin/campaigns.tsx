@@ -1,16 +1,16 @@
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaPlus } from "react-icons/fa";
+import { FaCirclePlus } from "react-icons/fa6";
 import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import { Column } from "react-table";
+import { Skeleton } from "../../components/Loader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
 import { useAllCampaignsQuery } from "../../redux/api/campaignAPI";
 import { server } from "../../redux/store";
 import { CustomError } from "../../types/api-types";
 import { UserReducerInitialState } from "../../types/reducer-types";
-import { Skeleton } from "../../components/Loader";
 
 interface DataType {
   photo: ReactElement;
@@ -89,11 +89,16 @@ const Campaigns = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-        <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+
+      <div className="add">
         <Link to="/admin/campaign/new" className="create-product-btn">
-        <FaPlus className="add" />
-      </Link>
+          <FaCirclePlus />
+        </Link>
+      </div>
     </div>
+
+    
   );
 };
 

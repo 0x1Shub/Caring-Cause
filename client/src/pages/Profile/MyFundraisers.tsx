@@ -3,13 +3,15 @@ import { VscError } from 'react-icons/vsc'
 import CampaignItems from "../../components/CampaignItems";
 import { Link } from "react-router-dom";
 
+import image from '../../assets/WhatsApp Image 2024-04-25 at 09.34.07_13f6ab1e.jpg';
+
 const campaignsItem = [
     {
-        campaignId: "asas",
-        photo : "https://m.media-amazon.com/images/I/71TPda7cwUL._SL1500_.jpg",
-        title : "Fund Me Studies",
-        amountRaised : 3000,
-        amountGoal : 10000,
+        campaignId: "6629d76cac94d2164bfc5b09",
+        photo : image,
+        title : "Old Age Home",
+        amountRaised : 2000,
+        amountGoal : 50000,
     }
 ];
 

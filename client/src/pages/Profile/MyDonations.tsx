@@ -49,7 +49,39 @@ const MyDonations = () => {
             transactionId : 20,
             status: <span className="red">Processing</span>,
             action: <Link to={`/donation/view/asas`}>View</Link>,
-        }    
+        },
+        {
+            id: "662675812fac8475cafebd2b",
+            amount: 2000,
+            campaignTitle : "Old Age Home",
+            transactionId : 20,
+            status: <span className="red">Processing</span>,
+            action: <Link to={`/donation/view/asas`}>View</Link>,
+        },
+        {
+            id: "66267900157b30a074e6010f",
+            amount: 2000,
+            campaignTitle : "Medial",
+            transactionId : 20,
+            status: <span className="red">Processing</span>,
+            action: <Link to={`/donation/view/asas`}>View</Link>,
+        },
+        {
+            id: "662675812fac8475cafebd2b",
+            amount: 3000,
+            campaignTitle : "Animal",
+            transactionId : 40,
+            status: <span className="red">Processing</span>,
+            action: <Link to={`/donation/view/asas`}>View</Link>,
+        },
+        {
+            id: "6626790015asdasf212f",
+            amount: 5000,
+            campaignTitle : "Memorial",
+            transactionId : 40,
+            status: <span className="red">Processing</span>,
+            action: <Link to={`/donation/view/asas`}>View</Link>,
+        },  
 ])
 
     const Table = TableHOC<DataType>(column, rows, "dashboard-product-box", "Donations", rows.length > 6)();

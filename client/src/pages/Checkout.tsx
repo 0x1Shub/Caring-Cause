@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Checkout = () => {
     const navigate = useNavigate();
@@ -23,7 +24,11 @@ const Checkout = () => {
 
     const handleRequestFund = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        // Display success toast
+        toast.success('Requesting fund successful');
         console.log("Requesting fund:", shippingInfo);
+        // You can also navigate or perform other actions here
+        // Example: navigate('/success')
     };
 
     return (

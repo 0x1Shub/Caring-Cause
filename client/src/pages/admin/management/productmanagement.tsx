@@ -2,15 +2,17 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { FaTrash } from "react-icons/fa";
 import AdminSidebar from "../../../components/admin/AdminSidebar";
 
-const img =
-  "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=804";
+import img from '../../../assets/WhatsApp Image 2024-04-25 at 09.34.07_13f6ab1e.jpg';
+
+// const img =
+//   "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8&w=1000&q=80;
 
 const CampaignManagement = () => {
-  const [amountGoal, setAmountGoal] = useState<number>(2000);
+  const [amountGoal, setAmountGoal] = useState<number>(50000);
   const [amountRaised, setAmountRaised] = useState<number>(10);
-  const [name, setName] = useState<string>("Education");
+  const [name, setName] = useState<string>("Old Age Home");
   const [photo, setPhoto] = useState<string>(img);
-  const [category, setCategory] = useState<string>("Education");
+  const [category, setCategory] = useState<string>("Health");
 
   const [amountGoalUpdate, setAmountGoalUpdate] = useState<number>(amountGoal);
   const [amountRaisedUpdate, setAmountRaisedUpdate] = useState<number>(amountRaised);

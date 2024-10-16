@@ -29,7 +29,8 @@ const campaignSchema = new mongoose.Schema(
       },
       categories: {
         type: String,
-        required: [true, "Please select campaign categories"],
+        enum : ["Children", "Education", "Health", "Animal"],
+        required: [false, "Please select campaign categories"],
       },
       amountGoal: {
         type: Number,
@@ -47,8 +48,10 @@ const campaignSchema = new mongoose.Schema(
         type: String,
         required: [true, "Please enter campaign description"],
       },
-      documents: [String], 
-    }
+      documents: {
+        type: [false,  Schema.Types.Mixed],
+      }
+    },
   {
     timestamps: true,
   }

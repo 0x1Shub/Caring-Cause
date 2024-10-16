@@ -50,7 +50,9 @@ $color3: rgb(0, 104, 136);
   @import "components/Navbar";
   @import "components/CircularRating.scss";
 
-  @import "pages/Home.scss";
+  @import "pages/Home.scss";  
+  @import "pages/Donation.scss";
+
 
   @import "pages/MyFundraisers.scss";
   @import "pages/Checkout.scss";
@@ -185,6 +187,20 @@ $color3: rgb(0, 104, 136);
             }
           }
         }
+      }
+
+    }
+
+    >main{
+      margin-top: 20px;
+    }
+
+    >div{
+
+      .create-product-btn{
+        margin-top: 100px;
+        width: 50px;
+        height: 50px;
       }
     }
   }

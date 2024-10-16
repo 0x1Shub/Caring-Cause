@@ -1,6 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNewCampaignMutation } from "../../redux/api/campaignAPI";
+import {toast} from 'react-hot-toast';
+import { NewCampaignRequest } from "../../types/api-types";
 
 interface CampaignCreateProps {
     formData?: {
@@ -13,9 +17,8 @@ interface CampaignCreateProps {
         categories?: string;
         amountGoal?: string;
         endDate?: string;
-        photo?: string;
+        photo?: string | File;
         description?: string;
-        documents?: FileList | null;
     };
     onChange: (data: any) => void;
     onNext: () => void;
@@ -35,7 +38,6 @@ const CampaignCreate = ({ formData = {}, onChange, onNext }: CampaignCreateProps
         endDate: formData.endDate || '',
         photo: formData.photo || '',
         description: formData.description || '',
-        documents: formData.documents || null,
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -47,19 +49,53 @@ const CampaignCreate = ({ formData = {}, onChange, onNext }: CampaignCreateProps
     };
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setForm(prevState => ({
-                ...prevState,
-                documents: e.target.files
-            }));
-        }
+        const files = e.target.files;
+    if (files && files.length > 0) {
+        setForm(prevState => ({
+            ...prevState,
+            photo: files[0] // Assuming only one file is selected
+        }));
+    }
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const [createCampaign] = useNewCampaignMutation();
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        onChange(form);
-        onNext();
+    
+        try {
+            const formData = new FormData();
+            formData.append('userName', form.userName);
+            formData.append('education', form.education);
+            formData.append('employment', form.employment);
+            formData.append('mobile', form.mobile);
+            formData.append('dob', form.dob);
+            formData.append('title', form.title);
+            formData.append('categories', form.categories);
+            formData.append('amountGoal', form.amountGoal);
+            formData.append('endDate', form.endDate);
+            
+            if (form.photo instanceof File) {
+                formData.append('photo', form.photo);
+            }
+            
+            formData.append('description', form.description);
+    
+            const requestData: NewCampaignRequest = {
+                id: '', 
+                formData: formData
+            };
+    
+            const response = await createCampaign(requestData);
+            toast.success('Campaign created successfully');
+            onNext();
+        } catch (error) {
+            // toast.error('Error creating campaign');
+            console.error('Error creating campaign:', error);
+        }
     };
+    
 
     return (
         <div className="campaign-create">
@@ -102,7 +138,7 @@ const CampaignCreate = ({ formData = {}, onChange, onNext }: CampaignCreateProps
                 </select>
                 <input required type="number" placeholder="Goal amount" name="amountGoal" value={form.amountGoal} onChange={handleChange} />
                 <input required type="date" placeholder="End Date" name="endDate" value={form.endDate} onChange={handleChange} />
-                <input type="file" name="photo" accept=".pdf,.doc,.docx" onChange={handleFileChange} multiple />
+                <input type="file" name="photo" accept=".png, .jpg, .jpeg" onChange={handleFileChange} multiple />
 
                 {/* Campaign Description */}
                 <h5>Campaign Description</h5>
@@ -114,10 +150,6 @@ const CampaignCreate = ({ formData = {}, onChange, onNext }: CampaignCreateProps
                     onChange={handleChange}
                     maxLength={60}
                 ></textarea>
-
-                {/* Documents */}
-                <h5>Documents</h5>
-                <input type="file" name="documents" accept=".pdf,.doc,.docx" onChange={handleFileChange} multiple />
 
                 <button type="submit">Next</button>
             </form>

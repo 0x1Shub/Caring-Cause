@@ -32,6 +32,7 @@ const Profile = lazy(() => import('./pages/Profile/Profile'));
 
 // Transaction
 const Checkout = lazy(() => import('./pages/Checkout'));
+const DonationPage = lazy(() => import('./pages/Donation'));
 
 
 // Admin Routes Components
@@ -110,6 +111,10 @@ const App = () => {
         {/* Login User Route */}
         <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
           <Route path='/checkout' element={<Checkout />} />
+        </Route>
+
+        <Route element={<ProtectedRoute isAuthenticated={user ? true : false} />}>
+          <Route path='/donation' element={<DonationPage />} />
         </Route>
 
 

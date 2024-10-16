@@ -3,16 +3,12 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema(
     {
         donationInfo: {
-            name: {
+            userName: {
                 type: String,
                 required: true,
             },
             phone : {
                 type: Number,
-                required: true,
-            },
-            email : {
-                type: String,
                 required: true,
             },
             amount: {
@@ -26,18 +22,6 @@ const schema = new mongoose.Schema(
             reference: "User",
             require: true,
         },
-        subtotal:{
-            type:Number,
-            require: true,
-        },
-        tax:{
-            type:Number,
-            require: true,
-        },
-        reward:{
-            type:Number,
-            require: true,
-        },
         total: {
             type:Number,
             require: true,
@@ -48,9 +32,9 @@ const schema = new mongoose.Schema(
             default: "Processing",
         },
         donationCampaigns: {
-            name: String,
+            title: String,
             photo: String,
-            amount: Number,
+            amountGoal: Number,
             transactionId: Number,
             campaignId: {
                 type: mongoose.Types.ObjectId,

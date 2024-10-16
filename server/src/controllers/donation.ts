@@ -8,7 +8,7 @@ import { myCache } from "../app.js";
 
 export const newDonation = TryCatch(async (req:Request<{}, {}, NewDonationRequestBody>, res, next) => {
 
-    const {donationInfo, donationCampaigns, userId, subtotal, total, tax, reward} = req.body;
+    const {donationInfo, donationCampaigns, userId, total,} = req.body;
 
     if(!donationInfo || !donationCampaigns || !userId || !total ){
         return next(new ErrorHandler("Please Enter All details", 400)); 
@@ -17,7 +17,7 @@ export const newDonation = TryCatch(async (req:Request<{}, {}, NewDonationReques
     let temp: string[] = [];
 
     const donation = await Donation.create({
-        donationInfo, userId, subtotal, total, tax, reward, donationCampaigns
+        donationInfo, userId, total, donationCampaigns
     });
 
     await reduceGoalAmount(donationCampaigns);
