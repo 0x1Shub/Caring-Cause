@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-
 import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
@@ -8,6 +7,8 @@ import { HiOutlineUserCircle } from "react-icons/hi2";
 import caringCauseLogo from '../assets/caringCause-logo.png';
 import { auth } from "../firebase";
 import { User } from "../types/types";
+
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 // import { getCampaignSuggestions } from "../api"; // Function to call backend API
 
@@ -18,7 +19,6 @@ interface PropsType {
 
 
 const Navbar = ({user} : PropsType) => {
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -51,77 +51,99 @@ const Navbar = ({user} : PropsType) => {
   return (
     <nav className="navbar">
 
-      {/* Navbar Logo */}
-      <div className="navbar-content">
+      {/* Navbar Left:  Logo */}
+      <div className="navbar-left">
         <Link to={'/'} className="logo">
           <img src={caringCauseLogo} alt="Logo." />
           <span>Caring Cause</span>
         </Link>
       </div>
-      
-      {/* NavBar Items */}
-      <div className={'nav-items'}>
-          <Link className="link" to={'/'}>Home</Link>
-          <div className="fundraiser">
-            <Link className="link" to={'/campaigns/create'}>Start a Fundraiser</Link>
+
+      {/* Navbar Middle: Fundraise, Donate and Search */}
+      <div className="navbar-middle">
+        <div className="nav-items">
+          {/* Fundraiser Dropdown */}
+          <div className="dropdown">
+          <Link className="link" to={'/campaigns/create'}>Fundraise</Link>
+            <span className="dropdown-icon">
+              <RiArrowDropDownLine />
+            </span>
+            <div className="dropdown-content">
+              {/* <Link to={'/campaigns/start'}>Start a Campaign</Link>
+              <Link to={'/campaigns/view'}>View Fundraisers</Link> */}
+            </div>
           </div>
-          
-          <Link className="link" to={'/campaigns'}>Donate</Link>
-          <Link className="link" to={'/working'}>How it Works</Link>
+
+          {/* Donate Dropdown */}
+          <div className="dropdown">
+          <Link className="link" to={'/campaigns/donate'}>Donate</Link>
+            <span className="dropdown-icon">
+              <RiArrowDropDownLine />
+            </span>
+            <div className="dropdown-content">
+              {/* <Link to={'/campaigns/start'}>Start a Campaign</Link>
+              <Link to={'/campaigns/view'}>View Fundraisers</Link> */}
+            </div>
+          </div>
 
 
-          <Link to={'/search'} className="link">
-              <HiOutlineSearch className="searchIcon" />
-          </Link>
+          {/* Search Input Box */}
+          <div className="search-box">
+            <HiOutlineSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search campaigns"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            {/* <button onClick={handleSearch}>Search</button> */}
+          </div>
 
-            {/* <div className="link search">
-                      <HiOutlineSearch onClick={() => setIsOpen(true)} />
-                      {isOpen && (
-                        <div className="search-input">
-                          <input
-                            type="text"
-                            placeholder="Search campaigns"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)} />
-                          <button onClick={handleSearch}>Search</button>
-                        </div>
-                      )}
-            </div> */}
+          {/* About Dropdown */}
+          <div className="dropdown">
+            <Link className="link" to={'/about'}>About</Link>
+            <span className="dropdown-icon">
+            <RiArrowDropDownLine />
+            </span>
+            <div className="dropdown-content">
+              {/* <Link to={'/team'}>Our Team</Link>
+              <Link to={'/mission'}>Our Mission</Link> */}
+            </div>
+          </div>
 
-          {/* Navbar Users */}
+        </div>
+      </div>
 
-          <div className="menu">
-            {user?._id ? (
+       {/* Navbar Right: Button and User Icon */}
+       <div className="navbar-right">
+        {/* Start a Campaign Button */}
+        <Link to={'/campaigns/start'} className="btn-start-campaign">
+          Start a Campaign
+        </Link>
+
+        {/* User Icon with Dropdown */}
+        <div className="user-menu">
+          <HiOutlineUserCircle className="user-icon" onClick={() => setIsOpen((prev) => !prev)} />
+          {isOpen && (
+            <div className="dropdown-menu">
+              {user?._id ? (
                 <>
-                  <HiOutlineUserCircle className="userIcon" onClick={() => setIsOpen((prev) => !prev)} />
-                      <dialog open={isOpen}>
-                        <div>
-                        {user.role === 'admin' && (
-                          <Link onClick={() => setIsOpen(false)} to={'/admin/dashboard'}>Admin</Link>
-                        )} 
-                          <Link onClick={() => setIsOpen(false)} to={'/profile'}>View Profile</Link>
-                          <Link onClick={() => setIsOpen(false)} to={'/profile/fundraisers'}>My Fundraisers</Link>
-                          <Link onClick={() => setIsOpen(false)} to={'/profile/donations'}>My Donations</Link>
-                          <Link onClick={logoutHandler} to={'/logout'}>Log out</Link>
-                        </div>
-                          
-                      </dialog>
+                  <Link to={'/profile'}>Profile</Link>
+                  <Link to={'/profile/fundraisers'}>My Fundraisers</Link>
+                  <Link to={'/profile/donations'}>My Donations</Link>
+                  <button onClick={logoutHandler}>Log out</button>
                 </>
-                  
-                ) : (
-                            <>
-                              <HiOutlineUserCircle className="userIcon" onClick={() => setIsOpen((prev) => !prev)} />
-                              <div className="drop-down">
-                                <dialog open={isOpen} className="authenticate">
-                                    <Link onClick={() => setIsOpen(false)} to={'/login'}>Log In</Link><br></br>
-                                    <Link onClick={() => setIsOpen(false)} to={'/signup'}>Sign Up</Link>
-                                </dialog>
-                              </div> 
-                            </>
-                        )}
-                  </div>
-
-              </div>
+              ) : (
+                <>
+                  <Link to={'/login'}>Sign In</Link>
+                  <Link to={'/signup'}>Sign Up</Link>
+                </>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+      
 
     </nav>
   )
